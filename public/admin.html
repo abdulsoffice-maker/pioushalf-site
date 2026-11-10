@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin | Salaamify</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">Salaamify<sup>™</sup><span>Admin</span></a>
+  <nav aria-label="Account"><a href="/dashboard.html">My dashboard</a></nav>
+  <button class="btn ghost-dark small" id="logoutBtn">Sign out</button>
+</header>
+<main class="join dash">
+  <h1>Admin</h1>
+  <p class="status" id="gate" role="status"></p>
+  <div id="app" hidden>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <section class="panel wide" id="view" aria-live="polite"></section>
+  </div>
+</main>
+<script src="/common.js"></script>
+<script src="/admin.js"></script>
+</body>
+</html>

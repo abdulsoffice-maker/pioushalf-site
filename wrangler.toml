@@ -1,0 +1,27 @@
+name = "pioushalf-site"
+pages_build_output_dir = "public"
+compatibility_date = "2026-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pioushalf-db"
+database_id = "79bea30e-2a7a-43a4-a4b3-9ec80c9b74c1"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "pioushalf-private"
+
+[vars]
+GST_RATE = "18"
+SELLER_GSTIN = "ADD-YOUR-GSTIN"
+SELLER_ADDRESS = "ADD-REGISTERED-ADDRESS"
+SITE_URL = "https://pioushalf.com"
+# Comma-separated emails that can open /admin.html, for example "you@example.com". Empty means nobody is an admin.
+ADMIN_EMAILS = ""
+SUPPORT_NOTIFY = "peace@pioushalf.com"
+# Set to "1" once live payments work, so only paid members can send interest.
+REQUIRE_MEMBERSHIP = "0"
+
+# Secrets (never commit). Set with: wrangler pages secret put NAME
+#   RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET
+# Also needed: RESEND_API_KEY (email sign-in codes) and AUTH_SECRET (any long random string).

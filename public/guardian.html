@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guardian | Salaamify</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">Salaamify<sup>™</sup><span>Group</span></a>
+  <button class="btn ghost-dark small" id="logoutBtn">Sign out</button>
+</header>
+
+<main class="join dash">
+  <h1>Guardian</h1>
+
+  <section class="panel wide" id="acceptPanel" hidden>
+    <h2>You have been invited</h2>
+    <p>Someone has asked you to be their guardian (wali). You will review every introduction before any contact happens and take part in every discussion.</p>
+    <button class="btn gold" id="acceptBtn">Accept as guardian</button>
+    <p class="status" id="acceptStatus" role="status"></p>
+  </section>
+
+  <section class="panel wide">
+    <h2>People you look after</h2>
+    <ul class="rows" id="wardList"><li class="muted">Loading…</li></ul>
+  </section>
+
+  <section class="panel wide">
+    <h2>Discussion Rooms</h2>
+    <p class="muted">Join a room so it can open. You see every message, and you decide when contact details may be shared.</p>
+    <ul class="rows" id="roomList"><li class="muted">Loading…</li></ul>
+  </section>
+
+  <section class="panel wide">
+    <h2>Introductions waiting for you</h2>
+    <p class="muted">Read each profile carefully. You can see everything the other family has shared, but no contact details.</p>
+    <ul class="rows" id="pendingList"><li class="muted">Loading…</li></ul>
+    <p class="status" id="pendingStatus" role="status"></p>
+  </section>
+</main>
+
+<script src="/common.js"></script>
+<script src="/guardian.js" defer></script>
+</body>
+</html>

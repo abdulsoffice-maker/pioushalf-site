@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact support | Salaamify</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">Salaamify<sup>™</sup><span>Group</span></a>
+  <nav aria-label="Main"><a href="/">Home</a></nav>
+</header>
+<main class="join">
+  <section class="panel">
+    <h1>Contact support</h1>
+    <p class="muted">Tell us how we can help. We reply by email, usually within two working days. Please do not send passwords or payment details.</p>
+    <form id="supportForm" class="form" novalidate>
+      <label>Your name<input name="name" maxlength="80" required autocomplete="name"></label>
+      <label>Email<input name="email" type="email" required autocomplete="email" inputmode="email"></label>
+      <label>Message<textarea name="message" rows="5" maxlength="2000" required></textarea></label>
+      <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn gold" type="submit">Send message</button>
+      <p class="status" id="supportStatus" role="status"></p>
+    </form>
+  </section>
+</main>
+<script src="/common.js"></script>
+<script src="/support.js"></script>
+</body>
+</html>

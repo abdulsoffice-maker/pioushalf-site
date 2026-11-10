@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join Salaamify | Create your profile</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">Salaamify<sup>™</sup><span>Group</span></a>
+  <button class="btn ghost-dark small" id="logoutBtn" hidden>Sign out</button>
+</header>
+
+<main class="join">
+  <!-- Step 1: email -->
+  <section id="stepEmail" class="panel">
+    <h1>Begin with salaam</h1>
+    <p class="muted">Enter your email and we will send you a 6-digit code. No password needed.</p>
+    <form id="emailForm" class="form" novalidate>
+      <label>Email<input type="email" name="email" required autocomplete="email" inputmode="email"></label>
+      <button class="btn gold" type="submit">Send my code</button>
+      <p class="status" id="emailStatus" role="status"></p>
+    </form>
+  </section>
+
+  <!-- Step 2: code -->
+  <section id="stepCode" class="panel" hidden>
+    <h1>Check your email</h1>
+    <p class="muted" id="codeHint">We sent a code to your email. It works for 10 minutes.</p>
+    <form id="codeForm" class="form" novalidate>
+      <label>6-digit code<input name="code" required inputmode="numeric" maxlength="6" autocomplete="one-time-code" pattern="[0-9]{6}"></label>
+      <button class="btn gold" type="submit">Continue</button>
+      <button class="linkbtn" type="button" id="backEmail">Use a different email</button>
+      <p class="status" id="codeStatus" role="status"></p>
+    </form>
+  </section>
+
+  <!-- Step 3: profile -->
+  <section id="stepProfile" class="panel wide" hidden>
+    <h1>Your profile</h1>
+    <p class="muted">Share what matters for marriage. Please do not include phone numbers, emails, links or social handles. These are shared only after both guardians approve.</p>
+
+    <div class="trust" id="trust" aria-live="polite"></div>
+    <p><a class="btn navybtn small" href="/dashboard.html">Guardians, introductions and browsing</a></p>
+
+    <form id="profileForm" class="form two-col" novalidate>
+      <label id="genderRow">I am a
+        <select name="gender"><option value="">Choose</option><option value="brother">Brother</option><option value="sister">Sister</option></select>
+      </label>
+      <label>Display name (first name or initials)<input name="display_name" maxlength="40" required></label>
+      <label>Age<input name="age" type="number" min="18" max="80" required></label>
+      <label>City<input name="city" maxlength="60"></label>
+      <label>Country<input name="country" maxlength="60"></label>
+      <label>Languages<input name="languages" maxlength="120" placeholder="Urdu, English, Arabic"></label>
+      <label>Profession<input name="profession" maxlength="80"></label>
+      <label>Education<input name="education" maxlength="120"></label>
+      <label>Religious commitment
+        <select name="religious_commitment"><option value="">Choose</option><option>Practising</option><option>Moderately practising</option><option>Learning</option></select>
+      </label>
+      <label>Prayer consistency
+        <select name="prayer_consistency"><option value="">Choose</option><option>Always on time</option><option>Most of the time</option><option>Working on it</option></select>
+      </label>
+      <label class="full">Islamic learning<textarea name="islamic_learning" rows="2" maxlength="400"></textarea></label>
+      <label class="full">Marriage goals<textarea name="marriage_goals" rows="3" maxlength="600"></textarea></label>
+      <label class="full">Family values<textarea name="family_values" rows="3" maxlength="600"></textarea></label>
+      <label class="full">Marriage preferences<textarea name="marriage_preferences" rows="3" maxlength="600"></textarea></label>
+      <label class="full">Lifestyle preferences<textarea name="lifestyle_preferences" rows="3" maxlength="600"></textarea></label>
+      <label class="full">About me<textarea name="about" rows="4" maxlength="800"></textarea></label>
+      <label class="full">Who can see my photos
+        <select name="photo_privacy">
+          <option value="guardian_approved">Only after guardian approval (recommended)</option>
+          <option value="hidden">Nobody for now</option>
+          <option value="members">Verified members</option>
+        </select>
+      </label>
+      <div class="full">
+        <button class="btn gold" type="submit">Save profile</button>
+        <p class="status" id="profileStatus" role="status"></p>
+      </div>
+    </form>
+  </section>
+</main>
+
+<script src="/join.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Salaamify | Dashboard</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">Salaamify<sup>™</sup><span>Group</span></a>
+  <nav aria-label="Account"><a href="/join.html">My profile</a><a href="/rooms.html">Discussion rooms</a></nav>
+  <button class="btn ghost-dark small" id="logoutBtn">Sign out</button>
+</header>
+
+<main class="join dash">
+  <h1 id="hello">Assalamu alaikum</h1>
+  <p class="muted" id="trustLine"></p>
+
+  <section class="panel wide" aria-labelledby="gTitle">
+    <h2 id="gTitle">Your guardians</h2>
+    <p class="muted">A guardian (wali) approves every introduction before any contact happens. You can have up to two.</p>
+    <ul class="rows" id="guardianList"></ul>
+    <form id="inviteForm" class="form two-col" novalidate hidden>
+      <label>Guardian's name<input name="name" maxlength="60" required></label>
+      <label>Guardian's email<input name="email" type="email" required inputmode="email"></label>
+      <label>Relationship
+        <select name="relationship" required>
+          <option value="">Choose</option><option>Father</option><option>Mother</option><option>Brother</option><option>Uncle</option>
+          <option>Aunt</option><option>Grandparent</option><option>Imam or teacher</option><option>Other</option>
+        </select>
+      </label>
+      <div class="full"><button class="btn gold" type="submit">Send invitation</button><p class="status" id="inviteStatus" role="status"></p></div>
+    </form>
+  </section>
+
+  <section class="panel wide" aria-labelledby="iTitle">
+    <h2 id="iTitle">My introductions</h2>
+    <h3>Sent by me</h3>
+    <ul class="rows" id="sentList"><li class="muted">Nothing yet.</li></ul>
+    <h3>Received</h3>
+    <ul class="rows" id="receivedList"><li class="muted">Nothing yet. Introductions appear here once both guardians have approved.</li></ul>
+    <p class="status" id="introStatus" role="status"></p>
+  </section>
+
+  <section class="panel wide" aria-labelledby="bTitle">
+    <h2 id="bTitle">Find a spouse</h2>
+    <p class="muted">Only guardian-verified profiles are shown. There are no photos or contact details here.</p>
+    <form id="filterForm" class="form filters" novalidate>
+      <label>Min age<input name="min_age" type="number" min="18" max="80"></label>
+      <label>Max age<input name="max_age" type="number" min="18" max="80"></label>
+      <label>Country<input name="country" maxlength="60"></label>
+      <label>Min trust score
+        <select name="min_trust"><option value="0">Any</option><option value="40">40+</option><option value="60">60+</option><option value="80">80+</option></select>
+      </label>
+      <button class="btn navybtn" type="submit">Search</button>
+    </form>
+    <div class="grid" id="results"></div>
+    <button class="btn ghost-dark" id="moreBtn" hidden>Show more</button>
+    <p class="status" id="browseStatus" role="status"></p>
+  </section>
+</main>
+
+<script src="/common.js"></script>
+<script src="/dashboard.js" defer></script>
+</body>
+</html>

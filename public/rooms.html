@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discussion Room | Salaamify</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">Salaamify<sup>™</sup><span>Group</span></a>
+  <nav aria-label="Account"><a href="/dashboard.html">Dashboard</a><a href="/guardian.html">Guardian</a></nav>
+  <button class="btn ghost-dark small" id="logoutBtn">Sign out</button>
+</header>
+
+<main class="join dash">
+  <!-- List of rooms -->
+  <section id="listView" class="panel wide" hidden>
+    <h1>Discussion Rooms</h1>
+    <p class="muted">Marriage-focused conversations that a guardian from each family can see. There are no private messages on Salaamify.</p>
+    <ul class="rows" id="roomList"><li class="muted">Loading…</li></ul>
+  </section>
+
+  <!-- One room -->
+  <section id="roomView" class="panel wide" hidden>
+    <p><a href="/rooms.html" class="linkbtn">All rooms</a></p>
+    <h1 id="roomTitle">Discussion Room</h1>
+    <p class="muted" id="people"></p>
+    <div class="banner" id="banner" role="status"></div>
+
+    <ul class="thread" id="thread" aria-live="polite" aria-label="Messages"></ul>
+
+    <form id="composer" class="form composer" novalidate>
+      <label><span class="sr">Your message</span><textarea name="body" rows="3" maxlength="1000" placeholder="Write a respectful, marriage-focused message"></textarea></label>
+      <div class="composer-row"><button class="btn gold" type="submit" id="sendBtn">Send</button><p class="status" id="sendStatus" role="status"></p></div>
+    </form>
+
+    <div class="controls" id="controls"></div>
+    <p class="status" id="ctlStatus" role="status"></p>
+  </section>
+</main>
+
+<script src="/common.js"></script>
+<script src="/rooms.js" defer></script>
+</body>
+</html>
