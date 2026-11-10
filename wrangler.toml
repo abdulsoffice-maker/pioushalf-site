@@ -17,7 +17,7 @@ SELLER_GSTIN = "ADD-YOUR-GSTIN"
 SELLER_ADDRESS = "ADD-REGISTERED-ADDRESS"
 SITE_URL = "https://pioushalf.com"
 # Comma-separated emails that can open /admin.html, for example "you@example.com". Empty means nobody is an admin.
-ADMIN_EMAILS = ""
+ADMIN_EMAILS = "pioushalf@gmail.com"
 SUPPORT_NOTIFY = "peace@pioushalf.com"
 # Set to "1" once live payments work, so only paid members can send interest.
 REQUIRE_MEMBERSHIP = "0"
