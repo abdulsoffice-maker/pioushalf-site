@@ -117,3 +117,4 @@ details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}.card b{display:block;font:600 1.6rem 'Playfair Display';color:var(--navy)}
 .tbl{width:100%;border-collapse:collapse;font-size:.88rem}.tbl th,.tbl td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
 .tblwrap{overflow-x:auto}
+[hidden]{display:none!important}

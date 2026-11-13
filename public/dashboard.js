@@ -24,12 +24,20 @@ async function refreshMe() {
   renderGuardians();
 }
 
+$("inviteForm").elements.relationship.addEventListener("change", e => {
+  const other = e.target.value === "Other";
+  $("otherRow").hidden = !other;
+  $("otherRow").querySelector("input").required = other;
+  if (other) $("otherRow").querySelector("input").focus();
+});
+
 $("inviteForm").addEventListener("submit", async e => {
   e.preventDefault();
   say("inviteStatus", "Sending…");
   const r = await api("/api/guardian/invite", "POST", Object.fromEntries(new FormData(e.target)));
   if (!r.ok) return say("inviteStatus", r.data.error || "Could not send the invitation", "err");
   e.target.reset();
+  $("otherRow").hidden = true;
   say("inviteStatus", "Invitation sent. Your guardian has 7 days to accept.", "ok");
   refreshMe();
 });
@@ -111,6 +119,7 @@ function card(p) {
 
 async function loadBrowse(reset) {
   if (reset) nextOffset = 0;
+  if (nextOffset == null) return;
   const q = new URLSearchParams(new FormData($("filterForm")));
   for (const [k, v] of [...q]) if (!v) q.delete(k);
   q.set("offset", nextOffset);

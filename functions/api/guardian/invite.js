@@ -18,6 +18,15 @@ export async function onRequestPost({ request, env }) {
   if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json({ error: "Please enter a valid email for your guardian", field: "email" }, 422);
   if (email === member.email) return json({ error: "Your guardian needs their own email address", field: "email" }, 422);
 
+  // "Other" must say who the person is, so the guardian and our team can check it.
+  let relationship = b.relationship;
+  if (relationship === "Other") {
+    const detail = String(b.relationship_other || "").trim();
+    if (detail.length < 3 || detail.length > 40) return json({ error: "Please say who they are to you, for example Elder sister or Family friend", field: "relationship_other" }, 422);
+    if (findContactInfo(detail)) return json({ error: "Please describe the relationship in words only", field: "relationship_other" }, 422);
+    relationship = "Other: " + detail;
+  }
+
   const profile = await env.DB.prepare(`SELECT display_name FROM profiles WHERE member_id = ?1`).bind(member.id).first();
   if (!profile) return json({ error: "Please save your profile first so your guardian knows who you are" }, 400);
 
@@ -33,7 +42,7 @@ export async function onRequestPost({ request, env }) {
     `INSERT INTO guardians (member_id, name, email, relationship, token_hash, status, invited_at)
      VALUES (?1, ?2, ?3, ?4, ?5, 'invited', datetime('now'))
      ON CONFLICT(member_id, email) DO UPDATE SET name = ?2, relationship = ?4, token_hash = ?5, status = 'invited', invited_at = datetime('now')`
-  ).bind(member.id, name, email, b.relationship, await sha256Hex(token)).run();
+  ).bind(member.id, name, email, relationship, await sha256Hex(token)).run();
 
   const ok = await sendMail(env, {
     to: email,
