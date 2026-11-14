@@ -204,6 +204,7 @@ CREATE TABLE IF NOT EXISTS marriage_checks (
   brother_submitted_at TEXT,
   sister_choice TEXT,                   -- agreed | own_discretion
   sister_reply TEXT,
+  sister_medical TEXT,                  -- her answer about sharing her own medical certificate
   sister_decided_at TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );

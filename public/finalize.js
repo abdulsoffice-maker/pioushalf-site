@@ -10,7 +10,7 @@ function renderAnswers() {
     <li><span>Housing</span><b>${esc(D.options.housing[a.housing])}, ${esc(a.distance_km)} km from her parental home</b></li>
     <li><span>Yearly income (his own statement)</span><b>${inr(a.yearly_income_inr)}</b></li>
     <li><span>Mehar offered</span><b>${inr(a.mehar_amount_inr)} (${esc(D.options.mehar_form[a.mehar_form])})</b></li>
-    <li><span>Medical certificate</span><b>${esc(D.options.medical[a.medical])}</b></li>
+    <li><span>His medical certificate</span><b>${esc(D.options.medical[a.medical])}</b></li>
     ${a.note ? `<li class="stack"><span>His note</span><b>${esc(a.note)}</b></li>` : ""}</ul>
     ${D.differences.length ? `<div class="banner"><b>Where his answers differ from the advisory</b><ul>${D.differences.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : `<p class="pill ok">His answers meet the advisory baseline.</p>`}
     <p class="muted small">Income and other figures are his own statement. Salaamify has not verified them. Families should check them directly.</p>`;
@@ -55,6 +55,7 @@ function renderSister() {
     <label class="check"><input type="radio" name="choice" value="agreed"> Yes, agreed. We will record these in our Nikah Nama or marriage agreement.</label>
     <label class="check"><input type="radio" name="choice" value="own_discretion"> I am proceeding at my own discretion, without or against the advisory.</label>
     <label class="check" id="riskRow" hidden><input type="checkbox" name="accept_own_risk"> I understand this is my own choice and Salaamify has advised me to protect these points.</label>
+    <label>Your own medical certificate (reproductive health and mental health fitness)<select name="medical"><option value="">Choose</option>${opts(D.options.medical)}</select></label>
     <label>A reply to the Brother (optional, no contact details)<textarea name="reply" rows="3" maxlength="600"></textarea></label>
     <div><button class="btn gold" type="submit">Save my decision</button><p class="status" id="sStatus" role="status"></p></div>
   </form>`;
@@ -62,7 +63,7 @@ function renderSister() {
   f.addEventListener("change", () => { $("riskRow").hidden = f.elements.choice.value !== "own_discretion"; });
   f.addEventListener("submit", async e => {
     e.preventDefault();
-    const r = await api(`/api/rooms/${roomId}/finalize`, "POST", { action: "decide", choice: f.elements.choice.value, accept_own_risk: f.elements.accept_own_risk.checked, reply: f.elements.reply.value });
+    const r = await api(`/api/rooms/${roomId}/finalize`, "POST", { action: "decide", choice: f.elements.choice.value, medical: f.elements.medical.value, accept_own_risk: f.elements.accept_own_risk.checked, reply: f.elements.reply.value });
     if (!r.ok) return say("sStatus", r.data.error || "Could not save", "err");
     load();
   });
@@ -78,6 +79,7 @@ function renderResult() {
   if (D.state === "ready") {
     box.innerHTML = `<h2>${D.sister_choice === "agreed" ? "Agreed and ready" : "Ready, at the Sister's own discretion"}</h2>
       <p>${D.sister_choice === "agreed" ? "The Sister agreed to these clauses. Please record them in your Nikah Nama or marriage agreement." : "The Sister chose to proceed at her own discretion."} The families may now proceed to the family introduction.</p>
+      ${D.sister_medical ? `<p><b>Her medical certificate:</b> ${esc(D.options.medical[D.sister_medical])}</p>` : ""}
       ${D.sister_reply ? `<p><b>Her reply:</b> ${esc(D.sister_reply)}</p>` : ""}
       ${D.you === "sister" ? `<button class="linkbtn" id="reopen">Change my decision</button>` : ""}`;
     const rb = $("reopen"); if (rb) rb.onclick = async () => { await api(`/api/rooms/${roomId}/finalize`, "POST", { action: "reopen" }); load(); };

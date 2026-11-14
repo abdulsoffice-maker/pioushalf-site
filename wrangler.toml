@@ -13,8 +13,8 @@ bucket_name = "pioushalf-private"
 
 [vars]
 GST_RATE = "18"
-SELLER_GSTIN = "ADD-YOUR-GSTIN"
-SELLER_ADDRESS = "ADD-REGISTERED-ADDRESS"
+SELLER_GSTIN = "27BMLPS1698J1Z7"
+SELLER_ADDRESS = "Mumbai, Maharashtra, India"
 SITE_URL = "https://pioushalf.com"
 # Comma-separated emails that can open /admin.html, for example "you@example.com". Empty means nobody is an admin.
 ADMIN_EMAILS = "pioushalf@gmail.com"

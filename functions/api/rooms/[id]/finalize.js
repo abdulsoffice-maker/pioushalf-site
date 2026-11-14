@@ -36,7 +36,7 @@ export async function onRequestGet({ request, env, params }) {
     intro: ADVISORY_INTRO, clauses: CLAUSES, options: { housing: HOUSING, mehar_form: MEHAR_FORMS, medical: MEDICAL },
     you: g.who, room_status: g.access.room.status, state: state(row),
     brother_answers: answers, differences: answers ? differences(answers) : [],
-    sister_choice: row ? row.sister_choice : null, sister_reply: row ? row.sister_reply : null,
+    sister_choice: row ? row.sister_choice : null, sister_medical: row ? row.sister_medical : null, sister_reply: row ? row.sister_reply : null,
   });
 }
 
@@ -83,10 +83,11 @@ export async function onRequestPost({ request, env, params }) {
     if (now !== "waiting_sister") return json({ error: now === "ready" ? "You have already decided" : "The Brother has not submitted yet" }, 409);
     if (!["agreed", "own_discretion"].includes(b.choice)) return json({ error: "Please choose one option", field: "choice" }, 422);
     if (b.choice === "own_discretion" && b.accept_own_risk !== true) return json({ error: "Please tick the box to confirm you are choosing this yourself", field: "accept_own_risk" }, 422);
+    if (!MEDICAL[b.medical]) return json({ error: "Please answer about your medical certificate", field: "medical" }, 422);
     const reply = text(b.reply, 600);
     if (findContactInfo(reply)) return json({ error: "Please do not include contact details in your reply", field: "reply" }, 422);
 
-    await env.DB.prepare(`UPDATE marriage_checks SET sister_choice = ?1, sister_reply = ?2, sister_decided_at = datetime('now') WHERE room_id = ?3`).bind(b.choice, reply || null, room.id).run();
+    await env.DB.prepare(`UPDATE marriage_checks SET sister_choice = ?1, sister_reply = ?2, sister_medical = ?3, sister_decided_at = datetime('now') WHERE room_id = ?4`).bind(b.choice, reply || null, b.medical, room.id).run();
     await systemMessage(env, room.id, b.choice === "agreed"
       ? "The Sister has reviewed the Safety & Alignment clauses and agreed. Please record them in your Nikah Nama or marriage agreement. The families may now proceed to the family introduction."
       : "The Sister has reviewed the Safety & Alignment clauses and chosen to proceed at her own discretion. The families may now proceed to the family introduction.");
@@ -97,7 +98,7 @@ export async function onRequestPost({ request, env, params }) {
   if (b.action === "reopen") {
     if (g.who !== "sister") return json({ error: "Only the Sister can reopen this" }, 403);
     if (now !== "ready") return json({ error: "Nothing to reopen" }, 409);
-    await env.DB.prepare(`UPDATE marriage_checks SET sister_choice = NULL, sister_reply = NULL, sister_decided_at = NULL WHERE room_id = ?1`).bind(room.id).run();
+    await env.DB.prepare(`UPDATE marriage_checks SET sister_choice = NULL, sister_reply = NULL, sister_medical = NULL, sister_decided_at = NULL WHERE room_id = ?1`).bind(room.id).run();
     await systemMessage(env, room.id, "The Sister has reopened her decision on the Safety & Alignment clauses.");
     return json({ ok: true, state: "waiting_sister" });
   }
