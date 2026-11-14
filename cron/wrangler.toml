@@ -1,0 +1,25 @@
+# Scheduled helper for PiousHalf. A separate Worker with its own name; it only touches pioushalf-db and pioushalf-private.
+name = "pioushalf-cron"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+[triggers]
+crons = ["*/30 * * * *", "30 21 * * *"]   # every 30 minutes: payment check. 03:00 India time daily: cleanup and error digest.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pioushalf-db"
+database_id = "79bea30e-2a7a-43a4-a4b3-9ec80c9b74c1"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "pioushalf-private"
+
+[vars]
+GST_RATE = "18"
+SELLER_GSTIN = "27BMLPS1698J1Z7"
+SELLER_NAME = "SALAAMIFY (Abdul Nabi Shaikh, Proprietor)"
+SELLER_ADDRESS = "1004, Rajiv Gandhi Nagar, Dharavi Loop Road, Dharavi, Mumbai 400017, Maharashtra"
+SITE_URL = "https://pioushalf.com"
+SUPPORT_NOTIFY = "peace@pioushalf.com"
+# Secrets to add in the Worker's settings: RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, RESEND_API_KEY

@@ -136,6 +136,13 @@ async function loadBrowse(reset) {
 
 $("filterForm").addEventListener("submit", e => { e.preventDefault(); loadBrowse(true); });
 $("moreBtn").addEventListener("click", () => loadBrowse(false));
+$("deleteForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (e.target.elements.confirm.value !== "DELETE") return say("deleteStatus", "Please type DELETE exactly to confirm.", "err");
+  if (!confirm("This closes your account and erases your personal data. It cannot be undone. Continue?")) return;
+  const r = await api("/api/account", "POST", { action: "delete", confirm: "DELETE" });
+  if (r.ok) location.href = "/"; else say("deleteStatus", r.data.error || "Could not close the account", "err");
+});
 $("logoutBtn").addEventListener("click", signOut);
 
 (async function init() {

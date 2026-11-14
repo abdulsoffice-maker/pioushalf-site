@@ -64,8 +64,17 @@
     <button class="btn ghost-dark" id="moreBtn" hidden>Show more</button>
     <p class="status" id="browseStatus" role="status"></p>
   </section>
+  <section class="panel wide" aria-labelledby="dataTitle">
+    <h2 id="dataTitle">Your data</h2>
+    <p class="muted">You can download everything we hold about you, or close your account and erase your personal data. Tax invoices are kept as the law requires.</p>
+    <p><a class="btn navybtn small" href="/api/account" download>Download my data</a></p>
+    <form id="deleteForm" class="form" novalidate>
+      <label>To close your account type DELETE<input name="confirm" autocomplete="off"></label>
+      <button class="btn ghost-dark small" type="submit">Close my account and erase my data</button>
+      <p class="status" id="deleteStatus" role="status"></p>
+    </form>
+  </section>
 </main>
-
 <script src="/common.js"></script>
 <script src="/dashboard.js" defer></script>
 </body>
