@@ -208,3 +208,12 @@ CREATE TABLE IF NOT EXISTS marriage_checks (
   sister_decided_at TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- ===== Stage 6: error log (the site records its own faults for the admin to see) =====
+CREATE TABLE IF NOT EXISTS error_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  method TEXT, path TEXT, status INTEGER, message TEXT,
+  status_flag TEXT NOT NULL DEFAULT 'open',            -- open | resolved
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_error_log_flag ON error_log(status_flag, created_at);

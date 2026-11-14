@@ -15,6 +15,7 @@ export async function onRequestGet({ request, env }) {
   const rooms = byStatus(await all(`SELECT status, COUNT(*) AS c FROM rooms GROUP BY status`));
   const flagsOpen = await q(`SELECT COUNT(*) AS c FROM moderation_flags WHERE status = 'open'`);
   const verifPending = await q(`SELECT COUNT(*) AS c FROM verifications WHERE status = 'pending'`);
+  const errorsOpen = await q(`SELECT COUNT(*) AS c FROM error_log WHERE status_flag = 'open'`);
   const ticketsOpen = await q(`SELECT COUNT(*) AS c FROM tickets WHERE status = 'open'`);
   const rev = await q(
     `SELECT COUNT(*) AS orders, COALESCE(SUM(amount_paise), 0) AS gross, COALESCE(SUM(taxable_paise), 0) AS taxable,
@@ -26,7 +27,7 @@ export async function onRequestGet({ request, env }) {
   return json({
     members: { total: members.total, suspended: members.suspended, with_profile: withProfile.c, guardian_verified: guardianVerified.c },
     interests, rooms,
-    safety: { open_flags: flagsOpen.c, pending_verifications: verifPending.c, open_tickets: ticketsOpen.c },
+    safety: { open_flags: flagsOpen.c, pending_verifications: verifPending.c, open_tickets: ticketsOpen.c, open_errors: errorsOpen.c },
     revenue: { paid_orders: rev.orders, gross_paise: rev.gross, taxable_paise: rev.taxable, gst_paise: rev.gst,
                this_month_orders: month.orders, this_month_gross_paise: month.gross, active_memberships: activeMemberships.c },
   });

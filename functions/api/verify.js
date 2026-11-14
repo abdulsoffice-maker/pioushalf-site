@@ -34,7 +34,7 @@ export async function markPaid(env, razorpay_order_id, razorpay_payment_id) {
 
   const html = `<!doctype html><meta charset="utf-8"><title>Tax Invoice ${invoice_no}</title>
 <body style="font-family:Arial,sans-serif;max-width:720px;margin:auto">
-<h1>Tax Invoice</h1><p><b>Salaamify Group</b><br>GSTIN: ${env.SELLER_GSTIN || "ADD-YOUR-GSTIN"}<br>${env.SELLER_ADDRESS || ""}</p>
+<h1>Tax Invoice</h1><p><b>${env.SELLER_NAME || "SALAAMIFY"}</b><br>GSTIN: ${env.SELLER_GSTIN || "ADD-YOUR-GSTIN"}<br>${env.SELLER_ADDRESS || ""}</p>
 <p>Invoice: ${invoice_no}<br>Date: ${start.toISOString().slice(0, 10)}<br>Place of supply: ${o.place_of_supply}</p>
 <p>Billed to: ${o.name}<br>${o.email}${o.gstin ? "<br>GSTIN: " + o.gstin : ""}</p>
 <table border="1" cellpadding="8" cellspacing="0" width="100%">

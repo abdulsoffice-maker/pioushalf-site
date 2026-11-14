@@ -1,5 +1,5 @@
 // Admin screens. Every call is checked again on the server, so hiding a tab here is only for tidiness.
-const TABS = ["Overview", "Members", "Safety", "Verifications", "Orders", "Support", "Audit"];
+const TABS = ["Overview", "Members", "Safety", "Verifications", "Orders", "Support", "Errors", "Audit"];
 const inr = p => "₹" + (p / 100).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const view = () => $("view");
 let current = "Overview";
@@ -16,7 +16,7 @@ const screens = {
     const sum = o => Object.entries(o).map(([k, v]) => `${esc(k.replace(/_/g, " "))}: ${esc(v)}`).join(", ") || "none";
     return `<h2>Overview</h2><div class="cards">
       ${c(d.members.total, "Members")}${c(d.members.with_profile, "With profile")}${c(d.members.guardian_verified, "Guardian verified")}${c(d.members.suspended, "Suspended")}
-      ${c(d.safety.open_flags, "Open safety flags")}${c(d.safety.pending_verifications, "Documents to review")}${c(d.safety.open_tickets, "Open support tickets")}
+      ${c(d.safety.open_flags, "Open safety flags")}${c(d.safety.pending_verifications, "Documents to review")}${c(d.safety.open_tickets, "Open support tickets")}${c(d.safety.open_errors, "Site errors to look at")}
       ${c(d.revenue.active_memberships, "Active memberships")}${c(inr(d.revenue.gross_paise), "Total collected")}${c(inr(d.revenue.this_month_gross_paise), "This month")}${c(inr(d.revenue.gst_paise), "GST included in total")}</div>
       <p class="muted">Introductions: ${sum(d.interests)}</p><p class="muted">Discussion rooms: ${sum(d.rooms)}</p>`;
   },
@@ -50,6 +50,12 @@ const screens = {
     const rows = r.data.tickets.map(t => `<tr>${td(t.created_at)}${td(t.name)}<td><a href="mailto:${esc(t.email)}">${esc(t.email)}</a></td>${td(t.message)}<td><button class="btn small navybtn" data-t="${t.id}">Close</button></td></tr>`);
     return `<h2>Open support tickets</h2><p class="status" id="adminMsg" role="status"></p>${table(["When", "Name", "Email", "Message", ""], rows)}`;
   },
+  async Errors() {
+    const r = await api("/api/admin/errors"); if (!r.ok) return `<p class="status err">Could not load.</p>`;
+    const rows = r.data.errors.map(x => `<tr>${td(x.created_at)}${td(x.method + " " + x.path)}${td(x.status)}${td(x.message)}<td><button class="btn small navybtn" data-err="${x.id}">Resolved</button></td></tr>`);
+    return `<h2>Site errors</h2><p class="muted">The site records its own faults here. Visitors only see a calm message. If the same one keeps appearing, tell your developer.</p>
+      <p class="status" id="adminMsg" role="status"></p>${rows.length ? `<p><button class="btn small gold" data-err="all">Mark all resolved</button></p>` : ""}${table(["When", "Request", "Code", "What happened", ""], rows)}`;
+  },
   async Audit() {
     const r = await api("/api/admin/audit"); if (!r.ok) return `<p class="status err">Could not load.</p>`;
     return `<h2>Audit log</h2>${table(["When", "Who", "Action", "Detail"], r.data.entries.map(e => `<tr>${td(e.created_at)}${td(e.actor)}${td(e.action)}${td(e.detail)}</tr>`))}`;
@@ -64,10 +70,11 @@ async function open(tab) {
 }
 
 view().addEventListener("click", async e => {
-  const b = e.target.closest("button[data-mid],button[data-flag],button[data-v],button[data-t]"); if (!b) return;
+  const b = e.target.closest("button[data-mid],button[data-flag],button[data-v],button[data-t],button[data-err]"); if (!b) return;
   let r;
   if (b.dataset.mid) r = await api("/api/admin/members", "POST", { id: +b.dataset.mid, status: b.dataset.to });
   else if (b.dataset.flag) r = await api("/api/admin/flags", "POST", { id: +b.dataset.flag });
+  else if (b.dataset.err) r = await api("/api/admin/errors", "POST", b.dataset.err === "all" ? { all: true } : { id: +b.dataset.err });
   else if (b.dataset.t) r = await api("/api/admin/tickets", "POST", { id: +b.dataset.t, status: "closed" });
   else { const [m, l, d] = b.dataset.v.split("|"); r = await api("/api/admin/verifications", "POST", { member_id: +m, level: l, decision: d }); }
   if (r.ok) await open(current); else say("adminMsg", r.data.error || "Failed", "err");

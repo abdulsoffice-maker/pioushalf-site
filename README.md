@@ -74,3 +74,9 @@ In the Cloudflare dashboard for the pioushalf.com domain, open Email, Email Rout
 - Only the Sister can decide ("agreed" or "own discretion"). The Brother's side can never decide or overrule, and he cannot edit after she decides unless she reopens.
 - Wording lives in `functions/_clauses.js` (Mehar floor, distance limit, clause text). Table `marriage_checks` is already created in `pioushalf-db`.
 - Figures are self-declared and not verified. Medical certificates are never stored by Salaamify.
+
+## Stage 6: self-recording faults, health check, headers
+- `functions/_middleware.js` records crashes and API 5xx answers in `error_log`; admin **Errors** tab lists them. Visitors see a calm message. Table already created in `pioushalf-db`.
+- `/api/health` returns 200 when the database and storage answer (503 otherwise). Point an uptime monitor at it.
+- `public/_headers` adds security headers; `robots.txt` keeps private pages out of search.
+- Invoices show `SELLER_NAME`, GSTIN and `SELLER_ADDRESS` from `wrangler.toml`.

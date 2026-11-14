@@ -14,7 +14,8 @@ bucket_name = "pioushalf-private"
 [vars]
 GST_RATE = "18"
 SELLER_GSTIN = "27BMLPS1698J1Z7"
-SELLER_ADDRESS = "Mumbai, Maharashtra, India"
+SELLER_NAME = "SALAAMIFY (Abdul Nabi Shaikh, Proprietor)"
+SELLER_ADDRESS = "1004, Rajiv Gandhi Nagar, Dharavi Loop Road, Dharavi, Mumbai 400017, Maharashtra"
 SITE_URL = "https://pioushalf.com"
 # Comma-separated emails that can open /admin.html, for example "you@example.com". Empty means nobody is an admin.
 ADMIN_EMAILS = "pioushalf@gmail.com"
