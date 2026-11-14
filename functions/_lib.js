@@ -185,3 +185,14 @@ export function csvCell(v) {
   if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
   return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
 }
+
+// Simple built-in rate limit: returns true when this key has made `max` hits in the last `seconds`. Otherwise records a hit.
+export async function rateLimited(env, key, max, seconds) {
+  try {
+    const r = await env.DB.prepare(`SELECT COUNT(*) AS c FROM rate_hits WHERE key = ?1 AND created_at > datetime('now', ?2)`).bind(key, `-${seconds} seconds`).first();
+    if (r.c >= max) return true;
+    await env.DB.prepare(`INSERT INTO rate_hits (key) VALUES (?1)`).bind(key).run();
+  } catch {}
+  return false;
+}
+export const clientIp = request => request.headers.get("cf-connecting-ip") || "unknown";

@@ -1,6 +1,6 @@
 // POST /api/auth/request  { email }  -> emails a 6-digit sign-in code (valid 10 minutes).
 // Always answers "ok" so the form cannot be used to discover which emails are registered.
-import { json, sha256Hex } from "../../_lib.js";
+import { json, sha256Hex, rateLimited, clientIp } from "../../_lib.js";
 
 export async function onRequestPost({ request, env }) {
   let b;
@@ -8,6 +8,7 @@ export async function onRequestPost({ request, env }) {
   const email = String(b.email || "").trim().toLowerCase();
   if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json({ error: "Please enter a valid email address" }, 400);
 
+  if (await rateLimited(env, "code:" + clientIp(request), 10, 3600)) return json({ error: "Too many requests. Please try again in an hour." }, 429);
   const recent = await env.DB.prepare(
     `SELECT COUNT(*) AS c FROM login_codes WHERE email = ?1 AND created_at > datetime('now','-10 minutes')`
   ).bind(email).first();

@@ -26,6 +26,7 @@ export async function reconcile(env, fetchFn = fetch) {
 
 export async function cleanup(env) {
   await env.DB.prepare(`DELETE FROM login_codes WHERE created_at < datetime('now','-1 day')`).run();
+  await env.DB.prepare(`DELETE FROM rate_hits WHERE created_at < datetime('now','-1 day')`).run();
   await env.DB.prepare(`DELETE FROM sessions WHERE expires_at < datetime('now')`).run();
   await env.DB.prepare(`DELETE FROM error_log WHERE status_flag = 'resolved' AND created_at < datetime('now','-90 days')`).run();
   const e = await env.DB.prepare(`SELECT COUNT(*) AS c FROM error_log WHERE status_flag = 'open'`).first();

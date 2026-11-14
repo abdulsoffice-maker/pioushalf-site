@@ -217,3 +217,10 @@ CREATE TABLE IF NOT EXISTS error_log (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_error_log_flag ON error_log(status_flag, created_at);
+
+-- ===== Stage 7: built-in rate limiter (sign-in endpoints) =====
+CREATE TABLE IF NOT EXISTS rate_hits (
+  key TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_rate_hits ON rate_hits(key, created_at);

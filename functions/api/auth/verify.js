@@ -1,9 +1,10 @@
 // POST /api/auth/verify  { email, code }  -> checks the code, creates the member if new, starts a 30-day session.
-import { json, sha256Hex, randomHex } from "../../_lib.js";
+import { json, sha256Hex, randomHex, rateLimited, clientIp } from "../../_lib.js";
 
 export async function onRequestPost({ request, env }) {
   let b;
   try { b = await request.json(); } catch { return json({ error: "Invalid request" }, 400); }
+  if (await rateLimited(env, "verify:" + clientIp(request), 30, 3600)) return json({ error: "Too many attempts. Please try again in an hour." }, 429);
   const email = String(b.email || "").trim().toLowerCase();
   const code = String(b.code || "").trim();
   if (!email || !/^\d{6}$/.test(code)) return json({ error: "Enter the 6-digit code" }, 400);
