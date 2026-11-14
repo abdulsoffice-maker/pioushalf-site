@@ -196,3 +196,14 @@ CREATE TABLE IF NOT EXISTS tickets (
   closed_at TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_tickets_status ON tickets(status, created_at);
+
+-- ===== Phase 2, stage 5: Marriage Safety & Alignment (written confirmations before finalizing) =====
+CREATE TABLE IF NOT EXISTS marriage_checks (
+  room_id INTEGER PRIMARY KEY REFERENCES rooms(id),
+  brother_answers TEXT,                 -- JSON, written by the brother
+  brother_submitted_at TEXT,
+  sister_choice TEXT,                   -- agreed | own_discretion
+  sister_reply TEXT,
+  sister_decided_at TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);

@@ -68,3 +68,9 @@ In the Cloudflare dashboard for the pioushalf.com domain, open Email, Email Rout
 - **Support** form at `/support.html` stores tickets in D1 and emails `SUPPORT_NOTIFY`.
 - **Identity and photo checks**: members upload from their profile page; files go to the private R2 bucket under `evidence/`, are viewable only by admins, and are deleted when an admin approves or rejects.
 - The `tickets` table has already been created in `pioushalf-db`.
+
+## Stage 5: Marriage Safety & Alignment
+- Opened from an open Discussion Room. The Brother confirms five clauses in writing (structured answers plus a filtered note); the Sister and both guardians see them, with any differences from the advisory flagged.
+- Only the Sister can decide ("agreed" or "own discretion"). The Brother's side can never decide or overrule, and he cannot edit after she decides unless she reopens.
+- Wording lives in `functions/_clauses.js` (Mehar floor, distance limit, clause text). Table `marriage_checks` is already created in `pioushalf-db`.
+- Figures are self-declared and not verified. Medical certificates are never stored by Salaamify.

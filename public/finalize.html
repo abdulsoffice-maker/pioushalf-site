@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marriage Safety &amp; Alignment | Salaamify</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="/">Salaamify<sup>™</sup><span>Group</span></a>
+  <nav aria-label="Account"><a href="/rooms.html">Discussion rooms</a></nav>
+  <button class="btn ghost-dark small" id="logoutBtn">Sign out</button>
+</header>
+<main class="join dash">
+  <p><a id="back" href="/rooms.html">← Back to the room</a></p>
+  <h1>Marriage Safety &amp; Alignment</h1>
+  <p class="muted" id="intro"></p>
+  <p class="status" id="topStatus" role="status"></p>
+  <section class="panel wide" id="clauses" aria-labelledby="cl"><h2 id="cl">The clauses</h2><ol id="clauseList"></ol></section>
+  <section class="panel wide" id="answers" hidden aria-labelledby="an"><h2 id="an">The Brother's written confirmations</h2><div id="answersBody"></div></section>
+  <section class="panel wide" id="brotherForm" hidden aria-labelledby="bf"></section>
+  <section class="panel wide" id="sisterForm" hidden aria-labelledby="sf"></section>
+  <section class="panel wide" id="resultBox" hidden role="status"></section>
+</main>
+<script src="/common.js"></script>
+<script src="/finalize.js"></script>
+</body>
+</html>

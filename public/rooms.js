@@ -58,6 +58,7 @@ function renderControls() {
                 : `<button class="btn navybtn small" data-act="unlock_contacts">Approve sharing contact details</button>`);
   }
   if (me.role === "guardian" && room.status === "paused") c.push(`<button class="btn gold small" data-act="resume">I have reviewed this. Resume the room</button>`);
+  if (room.status === "open") c.push(`<a class="btn navybtn small" href="/finalize.html?room=${Number(room.id)}">Marriage Safety &amp; Alignment</a>`);
   if (room.status !== "closed") c.push(`<button class="linkbtn" data-act="close">Close this room</button>`);
   $("controls").innerHTML = c.join(" ");
 }
