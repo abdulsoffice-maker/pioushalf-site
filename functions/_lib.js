@@ -67,12 +67,12 @@ export function findContactInfo(text) {
 }
 
 // ---- Email via Resend (silently skipped if no key is set, e.g. in local tests) ----
-export async function sendMail(env, { to, subject, text }) {
+export async function sendMail(env, { to, subject, text, html }) {
   if (!env.RESEND_API_KEY) return true;
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { "content-type": "application/json", authorization: `Bearer ${env.RESEND_API_KEY}` },
-    body: JSON.stringify({ from: env.MAIL_FROM || "Salaamify <peace@pioushalf.com>", to: [to], subject, text }),
+    body: JSON.stringify({ from: env.MAIL_FROM || "Salaamify <peace@pioushalf.com>", to: [to], subject, text, ...(html ? { html } : {}) }),
   });
   return r.ok;
 }

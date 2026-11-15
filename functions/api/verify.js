@@ -1,5 +1,6 @@
 // POST /api/verify -> checks the Razorpay signature, marks the order paid, numbers the invoice,
 // stores the invoice HTML in R2 and sets the membership dates.
+import { sendMail } from "../_lib.js";
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { "content-type": "application/json" } });
 
 async function hmacHex(secret, msg) {
@@ -47,6 +48,11 @@ export async function markPaid(env, razorpay_order_id, razorpay_payment_id) {
     `UPDATE orders SET status='paid', razorpay_payment_id=?1, invoice_no=?2, invoice_r2_key=?3, membership_start=?4, membership_end=?5, paid_at=datetime('now') WHERE id=?6`
   ).bind(razorpay_payment_id, invoice_no, key, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10), o.id).run();
   await env.DB.prepare(`INSERT INTO audit_log (actor,action,detail) VALUES ('system','order_paid',?1)`).bind(invoice_no).run();
+  // Email the tax invoice. A mail problem must never undo a confirmed payment.
+  try {
+    await sendMail(env, { to: o.email, subject: `Your Salaamify tax invoice ${invoice_no}`,
+      text: `Assalamu alaikum ${o.name},\n\nThank you. Your payment is received and your membership runs until ${end.toISOString().slice(0, 10)}.\nInvoice ${invoice_no} is below in the HTML part of this email.\n\nSalaamify, A Gift of Peace`, html });
+  } catch {}
   return { ...o, invoice_no };
 }
 
