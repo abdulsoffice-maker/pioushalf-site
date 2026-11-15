@@ -33,7 +33,7 @@ export async function onRequestPost({ request, env }) {
   const rz = await fetch("https://api.razorpay.com/v1/orders", {
     method: "POST",
     headers: { "content-type": "application/json", authorization: auth },
-    body: JSON.stringify({ amount, currency: "INR", receipt: "sal_" + Date.now(), notes: { plan: b.plan, email } }),
+    body: JSON.stringify({ amount, currency: "INR", receipt: "pioushalf_" + Date.now(), notes: { site: "pioushalf", plan: b.plan, email } }),
   });
   if (!rz.ok) return json({ error: "Payment provider error. Please try again." }, 502);
   const order = await rz.json();
