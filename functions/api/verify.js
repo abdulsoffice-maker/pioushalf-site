@@ -52,6 +52,8 @@ export async function markPaid(env, razorpay_order_id, razorpay_payment_id) {
   try {
     await sendMail(env, { to: o.email, subject: `Your Salaamify tax invoice ${invoice_no}`,
       text: `Assalamu alaikum ${o.name},\n\nThank you. Your payment is received and your membership runs until ${end.toISOString().slice(0, 10)}.\nInvoice ${invoice_no} is below in the HTML part of this email.\n\nSalaamify, A Gift of Peace`, html });
+    // a copy for our own records, so invoices can be found in the support mailbox for GST filing
+    await sendMail(env, { to: env.SUPPORT_NOTIFY || "peace@pioushalf.com", subject: `[Copy] Invoice ${invoice_no} for ${o.email}`, text: `Invoice ${invoice_no}. Payment ${razorpay_payment_id}. Customer ${o.name} (${o.email}).`, html });
   } catch {}
   return { ...o, invoice_no };
 }
