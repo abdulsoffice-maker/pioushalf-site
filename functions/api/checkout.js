@@ -17,6 +17,7 @@ export async function onRequestPost({ request, env }) {
   const plan = PLANS[b.plan];
   const email = String(b.email || "").trim().toLowerCase();
   if (!plan || !b.name || !/^\S+@\S+\.\S+$/.test(email) || !b.phone || !b.state) return json({ error: "Please complete all required fields" }, 400);
+  if (b.state === "Outside India") return json({ error: "Members outside India pay in US dollars with PayPal. Please choose that option." }, 400);
   if (b.gstin && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(b.gstin)) return json({ error: "GSTIN format looks incorrect" }, 400);
 
   // Sister discount is NOT applied automatically: staff verify first and refund/adjust. Charge full price here.

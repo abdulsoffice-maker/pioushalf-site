@@ -15,6 +15,7 @@ function financialYear(d = new Date()) {
   return `${String(start).slice(2)}-${String(start + 1).slice(2)}`;
 }
 const inr = p => "₹" + (p / 100).toLocaleString("en-IN", { minimumFractionDigits: 2 });
+const usd = c => "$" + (c / 100).toFixed(2);
 
 export async function markPaid(env, razorpay_order_id, razorpay_payment_id) {
   const o = await env.DB.prepare(
@@ -40,8 +41,11 @@ export async function markPaid(env, razorpay_order_id, razorpay_payment_id) {
 <p>Billed to: ${o.name}<br>${o.email}${o.gstin ? "<br>GSTIN: " + o.gstin : ""}</p>
 <table border="1" cellpadding="8" cellspacing="0" width="100%">
 <tr><th align="left">Description</th><th>SAC</th><th>Taxable</th><th>CGST</th><th>SGST</th><th>IGST</th><th>Total</th></tr>
-<tr><td>Salaamify™ ${o.plan} membership (${o.months} months)</td><td>998439</td><td>${inr(o.taxable_paise)}</td><td>${inr(o.cgst_paise)}</td><td>${inr(o.sgst_paise)}</td><td>${inr(o.igst_paise)}</td><td>${inr(o.amount_paise)}</td></tr></table>
-<p>GST rate ${o.gst_rate}%. Payment ID: ${razorpay_payment_id}. This is a computer-generated invoice.</p></body>`;
+${o.currency === "USD"
+  ? `<tr><td>Salaamify™ ${o.plan} membership (${o.months} months)</td><td>998439</td><td>${usd(o.amount_minor)}</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>${usd(o.amount_minor)}</td></tr></table>
+<p>${env.EXPORT_NOTE || "Export of services. Zero-rated supply, no GST charged."} Payment ID: ${razorpay_payment_id}. `
+  : `<tr><td>Salaamify™ ${o.plan} membership (${o.months} months)</td><td>998439</td><td>${inr(o.taxable_paise)}</td><td>${inr(o.cgst_paise)}</td><td>${inr(o.sgst_paise)}</td><td>${inr(o.igst_paise)}</td><td>${inr(o.amount_paise)}</td></tr></table>
+<p>GST rate ${o.gst_rate}%. Payment ID: ${razorpay_payment_id}. `}This is a computer-generated invoice.</p></body>`;
 
   await env.BUCKET.put(key, html, { httpMetadata: { contentType: "text/html" } });
   await env.DB.prepare(

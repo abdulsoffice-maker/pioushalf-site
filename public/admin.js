@@ -41,9 +41,11 @@ const screens = {
     return `<h2>Identity and photo checks</h2><p class="muted">Compare the document with the profile. The file is deleted when you decide.</p><p class="status" id="adminMsg" role="status"></p>${table(["Member", "Age", "Type", "Uploaded", "", ""], rows)}`;
   },
   async Orders() {
-    const r = await api("/api/admin/orders"); if (!r.ok) return `<p class="status err">Could not load.</p>`;
+    const [r, x] = await Promise.all([api("/api/admin/orders"), api("/api/admin/orders?kind=export")]); if (!r.ok) return `<p class="status err">Could not load.</p>`;
     const rows = r.data.orders.map(o => `<tr>${td((o.paid_at || "").slice(0, 10))}${td(o.invoice_no)}${td(o.name)}${td(o.plan_name)}${td(inr(o.amount_paise))}${td(o.membership_end || "")}${td(o.active ? "Active" : "Expired")}</tr>`);
-    return `<h2>Memberships and revenue</h2><p><a class="btn gold small" href="/api/admin/orders?format=csv">Download CSV for the GST sheet</a></p>${table(["Paid", "Invoice", "Customer", "Plan", "Amount", "Ends", "Status"], rows)}`;
+    const xrows = (x.ok ? x.data.orders : []).map(o => `<tr>${td((o.paid_at || "").slice(0, 10))}${td(o.invoice_no)}${td(o.name)}${td(o.plan_name)}${td("$" + (o.amount_minor / 100).toFixed(2))}${td(o.membership_end || "")}${td(o.active ? "Active" : "Expired")}</tr>`);
+    return `<h2>Memberships and revenue (India, INR)</h2><p><a class="btn gold small" href="/api/admin/orders?format=csv">Download CSV for the GST sheet</a></p>${table(["Paid", "Invoice", "Customer", "Plan", "Amount", "Ends", "Status"], rows)}
+      <h2>Overseas members (PayPal, USD, no GST)</h2><p><a class="btn navybtn small" href="/api/admin/orders?format=csv&kind=export">Download overseas CSV (for your CA)</a></p>${table(["Paid", "Invoice", "Customer", "Plan", "Amount", "Ends", "Status"], xrows)}`;
   },
   async Support() {
     const r = await api("/api/admin/tickets?status=open"); if (!r.ok) return `<p class="status err">Could not load.</p>`;

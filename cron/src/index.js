@@ -7,7 +7,7 @@ import { sendMail } from "../../functions/_lib.js";
 export async function reconcile(env, fetchFn = fetch) {
   if (!env.RAZORPAY_KEY_ID || !env.RAZORPAY_KEY_SECRET) return { skipped: true };
   const { results } = await env.DB.prepare(
-    `SELECT razorpay_order_id AS id FROM orders WHERE status = 'created' AND created_at < datetime('now','-10 minutes') AND created_at > datetime('now','-3 days') ORDER BY id LIMIT 20`
+    `SELECT razorpay_order_id AS id FROM orders WHERE status = 'created' AND provider = 'razorpay' AND created_at < datetime('now','-10 minutes') AND created_at > datetime('now','-3 days') ORDER BY id LIMIT 20`
   ).all();
   let confirmed = 0;
   const auth = "Basic " + btoa(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`);

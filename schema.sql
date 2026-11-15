@@ -32,7 +32,10 @@ CREATE TABLE IF NOT EXISTS orders (
   membership_start TEXT,
   membership_end TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  paid_at TEXT
+  paid_at TEXT,
+  provider TEXT NOT NULL DEFAULT 'razorpay',   -- razorpay | paypal (PayPal ids are stored as 'pp_<id>' in razorpay_order_id)
+  currency TEXT NOT NULL DEFAULT 'INR',
+  amount_minor INTEGER                         -- cents, for non-INR orders
 );
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status, paid_at);
 

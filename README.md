@@ -80,3 +80,10 @@ In the Cloudflare dashboard for the pioushalf.com domain, open Email, Email Rout
 - `/api/health` returns 200 when the database and storage answer (503 otherwise). Point an uptime monitor at it.
 - `public/_headers` adds security headers; `robots.txt` keeps private pages out of search.
 - Invoices show `SELLER_NAME`, GSTIN and `SELLER_ADDRESS` from `wrangler.toml`.
+
+## Stage 8: PayPal for members outside India
+- "I am paying from: Outside India" shows a PayPal button and a US-dollar price. Prices are in `functions/_paypal.js` (`PLANS_USD`): change them there.
+- Flow: `/api/paypal/create` makes the order, `/api/paypal/capture` takes the payment, checks amount and currency, then confirms the membership and emails a zero-rated export invoice (note text in `EXPORT_NOTE`, default "Export of services. Zero-rated supply, no GST charged.").
+- Secrets to add in Cloudflare: `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`. `PAYPAL_ENV` in `wrangler.toml` is `sandbox`; set `live` only with live keys.
+- Overseas orders have their own list and CSV in the admin Orders tab and never mix into the GST-sheet CSV. Treatment of export invoices (LUT) is for your CA to confirm.
+- Orders table gained `provider`, `currency`, `amount_minor` (already applied to `pioushalf-db`).
