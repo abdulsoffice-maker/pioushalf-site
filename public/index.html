@@ -92,11 +92,12 @@
 
 <section id="plans" class="section">
   <h2>Membership plans</h2>
-  <p class="lead-center">Sisters receive 50% off Standard, Premium and Premium Plus once their identity is verified. The discount is refunded automatically.</p>
+  <p class="lead-center">Sisters get 50% off Standard, Premium and Premium Plus. Sign in, verify your identity for free, and your prices are halved automatically.</p>
   <div class="cur-switch" role="group" aria-label="Currency">
     <button type="button" class="cur" data-cur="INR" aria-pressed="true">₹ Rupees</button>
     <button type="button" class="cur" data-cur="USD" aria-pressed="false">$ US dollars</button>
   </div>
+  <p class="lead-center small" id="sisterNote"></p>
   <div class="plans" id="plans-grid">
     <article class="plan founding" id="launchCard">
       <span class="tag" id="launchTag">Launch offer · first 1,000 members</span>
@@ -186,7 +187,7 @@
       <label>Country<input name="country" autocomplete="country-name"></label>
       <p class="muted small" id="usdPrice"></p>
     </div>
-    <label class="check"><input type="checkbox" name="sister"> I am a sister requesting the 50% discount (refunded automatically after identity verification; not on the Launch Offer)</label>
+    <label class="check" id="sisterBox"><input type="checkbox" name="sister"> I am a sister and have not verified yet: refund 50% after my identity is verified (within 30 days)</label>
     <label class="check"><input type="checkbox" name="terms" required> I accept the Terms, Privacy Policy and Refund Policy</label>
     <button class="btn gold" id="payBtn" type="submit">Pay securely with Razorpay</button>
     <div id="paypalBox" hidden></div>

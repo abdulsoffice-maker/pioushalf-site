@@ -12,7 +12,7 @@ export async function applySisterDiscountForEmail(env, email, fetchFn = fetch) {
   const { results } = await env.DB.prepare(
     `SELECT o.id FROM orders o JOIN customers c ON c.id = o.customer_id
      WHERE c.email = ?1 AND c.is_sister_discount_requested = 1 AND o.status = 'paid' AND o.plan != 'launch'
-       AND o.refund_id IS NULL AND o.paid_at > datetime('now','-30 days')`).bind(String(email).toLowerCase()).all();
+       AND o.refund_id IS NULL AND o.discount_pct = 0 AND o.paid_at > datetime('now','-30 days')`).bind(String(email).toLowerCase()).all();
   const done = [];
   for (const r of results) done.push(await refundHalf(env, r.id, fetchFn));
   return done;

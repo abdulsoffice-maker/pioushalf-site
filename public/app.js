@@ -3,16 +3,19 @@ const PLAN_NAMES = { launch: "Launch Offer (12 months)", standard: "Standard Mar
 
 // ---- Prices and currency: India sees rupees, everywhere else US dollars. The visitor can switch. ----
 let plansData = null, cur = "INR";
-const money = (c, n) => c === "INR" ? "₹" + Number(n).toLocaleString("en-IN") : "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+const money = (c, n) => (c === "INR" ? "₹" : "$") + Number(n).toLocaleString(c === "INR" ? "en-IN" : "en-US", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+const factor = key => (plansData && plansData.sister && key !== "launch" ? 0.5 : 1);
 function renderPrices() {
   if (!plansData) return;
   for (const p of plansData.plans) {
     const t = document.querySelector(`[data-total="${p.key}"]`), m = document.querySelector(`[data-month="${p.key}"]`);
-    const total = cur === "INR" ? p.inr : p.usd, month = cur === "INR" ? p.inr_month : p.usd_month;
+    const f = factor(p.key), total = (cur === "INR" ? p.inr : p.usd) * f, month = (cur === "INR" ? p.inr_month : p.usd_month) * f;
     if (t) t.textContent = money(cur, total);
     if (m) m.textContent = p.months === 1 ? money(cur, total) + " a month" : (p.key === "launch" ? "about " : "") + money(cur, month) + " a month" + (p.key === "launch" ? "" : " · " + money(cur, total) + " in total");
     PLAN_NAMES[p.key] = p.name;
   }
+  const note = document.getElementById("sisterNote");
+  note.innerHTML = plansData.sister ? "Sister price applied: 50% off Standard, Premium and Premium Plus." : 'Sisters: <a href="/join.html">sign in and verify your identity</a> (free) to see 50% off prices before you pay.';
   const L = plansData.launch, card = document.getElementById("launchCard");
   card.hidden = !L.open;
   document.getElementById("launchLeft").textContent = L.open ? L.remaining + " places left" + (L.ends ? " · ends " + L.ends : "") : "";
@@ -34,6 +37,7 @@ document.querySelectorAll("[data-plan]").forEach(btn => btn.addEventListener("cl
   document.getElementById("coPlan").textContent = PLAN_NAMES[selectedPlan];
   statusEl.textContent = ""; statusEl.className = "status";
   modal.hidden = false;
+  if (plansData && plansData.sister && selectedPlan !== "launch") { form.elements.email.value = plansData.sister_email; form.elements.email.readOnly = true; } else form.elements.email.readOnly = false;
   regionSel.value = cur === "USD" ? "abroad" : "india";
   setRegion();
   form.elements.name.focus();
@@ -43,7 +47,7 @@ modal.addEventListener("click", e => { if (e.target === modal) modal.hidden = tr
 document.addEventListener("keydown", e => { if (e.key === "Escape") modal.hidden = true; });
 
 // ---- Outside India: US dollars with PayPal ----
-const regionSel = document.getElementById("regionSel"), paypalBox = document.getElementById("paypalBox");
+const sisterBox = document.getElementById("sisterBox"), regionSel = document.getElementById("regionSel"), paypalBox = document.getElementById("paypalBox");
 let paypalCfg = null, paypalLoaded = null;
 function setRegion() {
   const abroad = regionSel.value === "abroad";
@@ -51,8 +55,9 @@ function setRegion() {
   document.getElementById("abroadFields").hidden = !abroad;
   for (const el of document.querySelectorAll("#indiaFields [required]")) el.disabled = abroad;
   payBtn.hidden = abroad; paypalBox.hidden = !abroad;
+  sisterBox.hidden = !!(plansData && plansData.sister && selectedPlan !== "launch") || selectedPlan === "launch";
   const pl = plansData && plansData.plans.find(x => x.key === selectedPlan);
-  document.getElementById("coPlan").textContent = PLAN_NAMES[selectedPlan] + (pl ? " · " + (abroad ? money("USD", pl.usd) : money("INR", pl.inr)) : "");
+  document.getElementById("coPlan").textContent = PLAN_NAMES[selectedPlan] + (pl ? " · " + (abroad ? money("USD", pl.usd * factor(selectedPlan)) : money("INR", pl.inr * factor(selectedPlan))) : "");
   if (abroad) preparePayPal();
 }
 regionSel.addEventListener("change", setRegion);

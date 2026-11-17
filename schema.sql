@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS orders (
   amount_minor INTEGER,                        -- cents, for non-INR orders
   refund_id TEXT,                              -- sister discount refund ('pending' while in flight)
   refund_minor INTEGER NOT NULL DEFAULT 0,     -- amount refunded (paise or cents)
-  refunded_at TEXT
+  refunded_at TEXT,
+  discount_pct INTEGER NOT NULL DEFAULT 0      -- 50 when a verified sister paid half price at checkout
 );
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status, paid_at);
 

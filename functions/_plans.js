@@ -1,3 +1,4 @@
+import { getMember } from "./_lib.js";
 // The ONE place prices live. Totals are what the member pays once, GST-inclusive in India, no GST abroad.
 // inr = rupees, usd = dollars. Monthly rates are shown for comparison only.
 export const PLANS = {
@@ -18,3 +19,13 @@ export async function launchStatus(env) {
   const open = taken < cap && (!ends || today <= ends);
   return { open, cap, remaining: Math.max(0, cap - taken), ends: ends || null };
 }
+
+// "Verify first, pay half": a signed-in sister whose identity is verified pays 50% on every plan except the Launch Offer,
+// when she pays with her own account email. Returns that email, or null.
+export async function sisterEligible(request, env) {
+  const me = await getMember(request, env);
+  if (!me || me.gender !== "sister") return null;
+  const v = await env.DB.prepare(`SELECT 1 AS ok FROM verifications WHERE member_id = ?1 AND level = 'identity' AND status = 'verified'`).bind(me.id).first();
+  return v ? me.email.toLowerCase() : null;
+}
+export const discountFor = (planKey, eligibleEmail, typedEmail) => (eligibleEmail && eligibleEmail === String(typedEmail).trim().toLowerCase() && planKey !== "launch" ? 50 : 0);
