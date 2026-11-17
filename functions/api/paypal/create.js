@@ -1,5 +1,6 @@
 // POST /api/paypal/create { plan, name, email, country, sister }  -> creates a PayPal order (USD) and the pending order here.
 import { PLANS_USD, paypalBase, paypalToken } from "../../_paypal.js";
+import { launchStatus } from "../../_plans.js";
 const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "content-type": "application/json" } });
 
 export async function onRequestPost({ request, env, fetchFn = fetch }) {
@@ -9,6 +10,7 @@ export async function onRequestPost({ request, env, fetchFn = fetch }) {
   const email = String(b.email || "").trim().toLowerCase();
   const name = String(b.name || "").trim(), country = String(b.country || "").trim();
   if (!plan || name.length < 2 || !/^\S+@\S+\.\S+$/.test(email) || country.length < 2) return json({ error: "Please complete all required fields" }, 400);
+  if (plan && plan.limited && !(await launchStatus(env)).open) return json({ error: "The launch offer has ended. Please choose another plan." }, 409);
   if (!env.PAYPAL_CLIENT_ID || !env.PAYPAL_CLIENT_SECRET) return json({ error: "PayPal is not switched on yet" }, 503);
 
   let token, order;

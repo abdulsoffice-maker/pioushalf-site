@@ -92,31 +92,41 @@
 
 <section id="plans" class="section">
   <h2>Membership plans</h2>
-  <p class="lead-center">Eligible sisters receive 50% off, worldwide. Prices shown in INR.</p>
+  <p class="lead-center">Sisters receive 50% off Standard, Premium and Premium Plus once their identity is verified. The discount is refunded automatically.</p>
+  <div class="cur-switch" role="group" aria-label="Currency">
+    <button type="button" class="cur" data-cur="INR" aria-pressed="true">₹ Rupees</button>
+    <button type="button" class="cur" data-cur="USD" aria-pressed="false">$ US dollars</button>
+  </div>
   <div class="plans" id="plans-grid">
-    <article class="plan founding">
-      <span class="tag">First 1,000 verified members</span>
-      <h3>Founding Member</h3>
-      <p class="price">₹999 <small>/ 3 months</small></p>
-      <button class="btn gold" data-plan="founding">Choose Founding</button>
+    <article class="plan founding" id="launchCard">
+      <span class="tag" id="launchTag">Launch offer · first 1,000 members</span>
+      <h3>Launch Offer</h3>
+      <p class="price"><span data-total="launch">₹3,999</span> <small>for 12 months</small></p>
+      <p class="muted small" data-month="launch">about ₹333 a month</p>
+      <p class="muted small" id="launchLeft"></p>
+      <button class="btn gold" data-plan="launch">Choose Launch Offer</button>
     </article>
     <article class="plan">
       <h3>Standard Marriage</h3>
-      <p class="price">₹2,999 <small>/ 3 months</small></p>
+      <p class="price"><span data-total="standard">₹1,599</span> <small>for 1 month</small></p>
+      <p class="muted small" data-month="standard">₹1,599 a month</p>
       <button class="btn navybtn" data-plan="standard">Choose Standard</button>
     </article>
     <article class="plan featured">
       <span class="tag">Most popular</span>
       <h3>Premium Marriage</h3>
-      <p class="price">₹3,999 <small>/ 6 months</small></p>
+      <p class="price"><span data-total="premium">₹8,394</span> <small>for 6 months</small></p>
+      <p class="muted small" data-month="premium">₹1,399 a month</p>
       <button class="btn gold" data-plan="premium">Choose Premium</button>
     </article>
     <article class="plan">
       <h3>Premium Marriage Plus</h3>
-      <p class="price">₹5,999 <small>/ 12 months</small></p>
+      <p class="price"><span data-total="plus">₹13,188</span> <small>for 12 months</small></p>
+      <p class="muted small" data-month="plus">₹1,099 a month</p>
       <button class="btn navybtn" data-plan="plus">Choose Plus</button>
     </article>
   </div>
+  <p class="lead-center small muted">Indian prices include 18% GST. International prices have no GST. The Launch Offer cannot be combined with the sister discount.</p>
 </section>
 
 <section class="section tint" id="stories">
@@ -176,7 +186,7 @@
       <label>Country<input name="country" autocomplete="country-name"></label>
       <p class="muted small" id="usdPrice"></p>
     </div>
-    <label class="check"><input type="checkbox" name="sister"> I am a sister requesting the 50% discount (verified before activation)</label>
+    <label class="check"><input type="checkbox" name="sister"> I am a sister requesting the 50% discount (refunded automatically after identity verification; not on the Launch Offer)</label>
     <label class="check"><input type="checkbox" name="terms" required> I accept the Terms, Privacy Policy and Refund Policy</label>
     <button class="btn gold" id="payBtn" type="submit">Pay securely with Razorpay</button>
     <div id="paypalBox" hidden></div>

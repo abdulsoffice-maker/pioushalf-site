@@ -1,6 +1,8 @@
 // POST /api/verify -> checks the Razorpay signature, marks the order paid, numbers the invoice,
 // stores the invoice HTML in R2 and sets the membership dates.
 import { sendMail } from "../_lib.js";
+import { applySisterDiscountForEmail } from "../_refund.js";
+import { PLAN_LABELS } from "../_plans.js";
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { "content-type": "application/json" } });
 
 async function hmacHex(secret, msg) {
@@ -42,9 +44,9 @@ export async function markPaid(env, razorpay_order_id, razorpay_payment_id) {
 <table border="1" cellpadding="8" cellspacing="0" width="100%">
 <tr><th align="left">Description</th><th>SAC</th><th>Taxable</th><th>CGST</th><th>SGST</th><th>IGST</th><th>Total</th></tr>
 ${o.currency === "USD"
-  ? `<tr><td>Salaamify™ ${o.plan} membership (${o.months} months)</td><td>998439</td><td>${usd(o.amount_minor)}</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>${usd(o.amount_minor)}</td></tr></table>
+  ? `<tr><td>Salaamify™ ${PLAN_LABELS[o.plan] || o.plan}</td><td>998439</td><td>${usd(o.amount_minor)}</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>${usd(o.amount_minor)}</td></tr></table>
 <p>${env.EXPORT_NOTE || "Export of services. Zero-rated supply, no GST charged."} Payment ID: ${razorpay_payment_id}. `
-  : `<tr><td>Salaamify™ ${o.plan} membership (${o.months} months)</td><td>998439</td><td>${inr(o.taxable_paise)}</td><td>${inr(o.cgst_paise)}</td><td>${inr(o.sgst_paise)}</td><td>${inr(o.igst_paise)}</td><td>${inr(o.amount_paise)}</td></tr></table>
+  : `<tr><td>Salaamify™ ${PLAN_LABELS[o.plan] || o.plan}</td><td>998439</td><td>${inr(o.taxable_paise)}</td><td>${inr(o.cgst_paise)}</td><td>${inr(o.sgst_paise)}</td><td>${inr(o.igst_paise)}</td><td>${inr(o.amount_paise)}</td></tr></table>
 <p>GST rate ${o.gst_rate}%. Payment ID: ${razorpay_payment_id}. `}This is a computer-generated invoice.</p></body>`;
 
   await env.BUCKET.put(key, html, { httpMetadata: { contentType: "text/html" } });
@@ -59,6 +61,8 @@ ${o.currency === "USD"
     // a copy for our own records, so invoices can be found in the support mailbox for GST filing
     await sendMail(env, { to: env.SUPPORT_NOTIFY || "peace@pioushalf.com", subject: `[Copy] Invoice ${invoice_no} for ${o.email}`, text: `Invoice ${invoice_no}. Payment ${razorpay_payment_id}. Customer ${o.name} (${o.email}).`, html });
   } catch {}
+  // If she is already a verified sister, the 50% comes back straight away.
+  if (o.plan !== "launch") { try { await applySisterDiscountForEmail(env, o.email); } catch {} }
   return { ...o, invoice_no };
 }
 

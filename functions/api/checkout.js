@@ -1,11 +1,6 @@
 // POST /api/checkout  -> creates a Razorpay order and stores the customer + pending order in D1.
 // Prices live here (server side) so the browser can never change the amount.
-const PLANS = {
-  founding: { months: 3, rupees: 999 },
-  standard: { months: 3, rupees: 2999 },
-  premium:  { months: 6, rupees: 3999 },
-  plus:     { months: 12, rupees: 5999 },
-};
+import { PLANS, launchStatus } from "../_plans.js";
 const HOME_STATE = "Maharashtra"; // CHANGE to your registered GST state
 
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { "content-type": "application/json" } });
@@ -15,14 +10,15 @@ export async function onRequestPost({ request, env }) {
   try { b = await request.json(); } catch { return json({ error: "Invalid request" }, 400); }
 
   const plan = PLANS[b.plan];
+  if (plan && plan.limited && !(await launchStatus(env)).open) return json({ error: "The launch offer has ended. Please choose another plan." }, 409);
   const email = String(b.email || "").trim().toLowerCase();
   if (!plan || !b.name || !/^\S+@\S+\.\S+$/.test(email) || !b.phone || !b.state) return json({ error: "Please complete all required fields" }, 400);
   if (b.state === "Outside India") return json({ error: "Members outside India pay in US dollars with PayPal. Please choose that option." }, 400);
   if (b.gstin && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(b.gstin)) return json({ error: "GSTIN format looks incorrect" }, 400);
 
-  // Sister discount is NOT applied automatically: staff verify first and refund/adjust. Charge full price here.
+  // Sister discount is not taken at checkout: once her identity is verified, 50% is refunded automatically (see _refund.js).
   const gstRate = Number(env.GST_RATE || 18);
-  const amount = plan.rupees * 100;
+  const amount = plan.inr * 100;
   const taxable = Math.round(amount / (1 + gstRate / 100)); // price is GST-inclusive
   const gst = amount - taxable;
   const intra = b.state === HOME_STATE;

@@ -1,11 +1,7 @@
 // PayPal helpers. Prices for members outside India are set here, on the server, in US dollars (cents).
-// CHANGE THESE to your final USD prices. Export of services: no GST is charged (see invoice note).
-export const PLANS_USD = {
-  founding: { months: 3,  cents: 1200 },
-  standard: { months: 3,  cents: 3500 },
-  premium:  { months: 6,  cents: 4500 },
-  plus:     { months: 12, cents: 7000 },
-};
+// Prices come from _plans.js. Export of services: no GST is charged (see invoice note).
+import { PLANS } from "./_plans.js";
+export const PLANS_USD = Object.fromEntries(Object.entries(PLANS).map(([k, p]) => [k, { months: p.months, cents: p.usd * 100, limited: !!p.limited }]));
 export const paypalBase = env => (env.PAYPAL_ENV === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com");
 
 export async function paypalToken(env, fetchFn = fetch) {

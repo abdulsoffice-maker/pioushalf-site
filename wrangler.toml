@@ -22,6 +22,9 @@ ADMIN_EMAILS = "pioushalf@gmail.com"
 SUPPORT_NOTIFY = "peace@pioushalf.com"
 # Set to "1" once live payments work, so only paid members can send interest.
 PAYPAL_ENV = "sandbox"   # change to "live" only when you use live PayPal keys
+# Launch offer: first LAUNCH_CAP paid members, until LAUNCH_ENDS (YYYY-MM-DD)
+LAUNCH_CAP = "1000"
+LAUNCH_ENDS = "2027-03-31"
 REQUIRE_MEMBERSHIP = "0"
 
 # Secrets (never commit). Set with: wrangler pages secret put NAME

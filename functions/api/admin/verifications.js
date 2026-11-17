@@ -2,6 +2,7 @@
 // POST /api/admin/verifications { member_id, level, decision }  decision: approve | reject
 // The uploaded document is deleted from storage as soon as a decision is made. Only the result is kept.
 import { json, adminGate, audit, notifyMember } from "../../_lib.js";
+import { applySisterDiscountForEmail } from "../../_refund.js";
 
 const REVIEWABLE = ["identity", "photo"];
 
@@ -39,5 +40,9 @@ export async function onRequestPost({ request, env }) {
     status === "verified" ? `Your ${what} verification was approved` : `Please upload your ${what} document again`,
     status === "verified" ? `Alhamdulillah, your ${what} verification was approved. Your trust score has been updated.`
                           : `We could not verify the ${what} document you uploaded. Please upload a clearer one from your profile page.`);
+  // A verified sister who paid and asked for the 50% discount gets it back right now, with no extra admin step.
+  if (status === "verified" && b.level === "identity") {
+    try { const m = await env.DB.prepare(`SELECT email FROM members WHERE id = ?1`).bind(memberId).first(); if (m) await applySisterDiscountForEmail(env, m.email); } catch {}
+  }
   return json({ ok: true, status });
 }

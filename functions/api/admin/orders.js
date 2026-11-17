@@ -3,7 +3,7 @@
 //                                    so it can be pasted straight in for GSTR-1 filing.
 import { json, adminGate, csvCell } from "../../_lib.js";
 
-const PLAN_NAMES = { founding: "Founding Member", standard: "Standard Marriage", premium: "Premium Marriage", plus: "Premium Marriage Plus" };
+import { PLAN_LABELS as PLAN_NAMES } from "../../_plans.js";
 
 export async function onRequestGet({ request, env }) {
   const g = await adminGate(request, env);

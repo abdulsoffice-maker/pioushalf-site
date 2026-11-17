@@ -35,7 +35,10 @@ CREATE TABLE IF NOT EXISTS orders (
   paid_at TEXT,
   provider TEXT NOT NULL DEFAULT 'razorpay',   -- razorpay | paypal (PayPal ids are stored as 'pp_<id>' in razorpay_order_id)
   currency TEXT NOT NULL DEFAULT 'INR',
-  amount_minor INTEGER                         -- cents, for non-INR orders
+  amount_minor INTEGER,                        -- cents, for non-INR orders
+  refund_id TEXT,                              -- sister discount refund ('pending' while in flight)
+  refund_minor INTEGER NOT NULL DEFAULT 0,     -- amount refunded (paise or cents)
+  refunded_at TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status, paid_at);
 
