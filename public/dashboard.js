@@ -17,11 +17,33 @@ function renderGuardians() {
   $("trustLine").textContent = `Trust score ${me.trust_score} / 100` + (verified ? "" : ". Add a guardian to start sending interest.");
 }
 
+function renderChecklist() {
+  const st = lvl => (me.verification || []).find(v => v.level === lvl)?.status || "not_started";
+  const g = me.guardians || [], gActive = g.some(x => x.status === "active");
+  const idv = st("identity"), pv = st("photo");
+  const step = (title, text, state, href, cta) => ({ title, text, state, href, cta });
+  const items = [
+    step("Create your profile", "Your goals, deen and family values.", "done"),
+    step("Add a guardian", "A wali or parent approves every introduction.", g.length ? "done" : "todo", "#gTitle", "Add guardian"),
+    step("Guardian accepts", "They have 7 days to accept your invitation.", gActive ? "done" : g.length ? "wait" : "todo", "#gTitle", "See invitation"),
+    step("Verify your identity", me.member.gender === "sister" ? "Free. It also unlocks your 50% sister price." : "Upload an ID. It is deleted once we decide.", idv === "verified" ? "done" : idv === "pending" ? "wait" : "todo", "/join.html#trust", "Upload ID"),
+    step("Verify your photo", "A selfie check that you are the person on the profile.", pv === "verified" ? "done" : pv === "pending" ? "wait" : "todo", "/join.html#trust", "Upload photo"),
+    step("Choose a membership", "Pick a plan when you are ready to send interest.", "todo", "/#plans", "See plans"),
+  ];
+  const done = items.filter(i => i.state === "done").length, pct = Math.round(done / items.length * 100);
+  $("clBar").setAttribute("aria-valuenow", pct); $("clBar").firstElementChild.style.width = pct + "%";
+  const next = items.find(i => i.state !== "done");
+  $("clSummary").textContent = done === items.length ? "All set. Jazakallahu khairan." : `${done} of ${items.length} done. Next: ${next.title.toLowerCase()}.`;
+  $("clList").innerHTML = items.map(i => `<li><span><b>${esc(i.title)}</b><br><span class="muted">${esc(i.text)}</span></span>
+    ${i.state === "done" ? '<span class="pill ok">Done</span>' : i.state === "wait" ? '<span class="pill">In review</span>' : `<a class="btn small ghost-dark" href="${i.href}">${esc(i.cta)}</a>`}</li>`).join("");
+}
+
 async function refreshMe() {
   const r = await api("/api/me");
   if (!r.ok) return goSignIn();
   me = r.data;
   renderGuardians();
+  renderChecklist();
 }
 
 $("inviteForm").elements.relationship.addEventListener("change", e => {
@@ -153,6 +175,7 @@ $("logoutBtn").addEventListener("click", signOut);
   $("hello").textContent = `Assalamu alaikum, ${me.profile.display_name}`;
   if (me.is_admin) { const a = document.createElement("a"); a.href = "/admin.html"; a.textContent = "Admin"; document.querySelector(".nav nav").appendChild(a); }
   renderGuardians();
+  renderChecklist();
   loadIntros();
   loadBrowse(true);
 })();

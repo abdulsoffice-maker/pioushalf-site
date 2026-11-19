@@ -124,3 +124,7 @@ details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 .cur{border:1px solid var(--line);background:#fff;color:var(--navy);padding:8px 18px;border-radius:999px;font:500 .9rem Inter;cursor:pointer}
 .cur[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
 .plan .small{font-size:.85rem;margin:-.6em 0 1em}
+
+.checklist .bar{height:8px;border-radius:999px;background:#efe9da;overflow:hidden;margin:10px 0}
+.checklist .bar i{display:block;height:100%;width:0;background:var(--emerald);transition:width .4s}
+.checklist .rows .btn{white-space:nowrap}

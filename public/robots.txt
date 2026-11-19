@@ -4,3 +4,7 @@ Disallow: /admin.html
 Disallow: /dashboard.html
 Disallow: /rooms.html
 Disallow: /api/
+Disallow: /guardian.html
+Disallow: /finalize.html
+
+Sitemap: https://pioushalf.com/sitemap.xml
