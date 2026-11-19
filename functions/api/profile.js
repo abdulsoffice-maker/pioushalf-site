@@ -8,7 +8,7 @@ const TEXT_LIMITS = {
 };
 const PRAYER = ["Always on time", "Most of the time", "Working on it"];
 const COMMITMENT = ["Practising", "Moderately practising", "Learning"];
-const PHOTO = ["hidden", "guardian_approved", "members"];
+const PHOTO = ["hidden", "guardian_approved"]; // the old "members" option was removed: photos are only ever shown after guardian approval
 
 export async function onRequestPut({ request, env }) {
   const member = await getMember(request, env);
@@ -35,7 +35,7 @@ export async function onRequestPut({ request, env }) {
   if (!Number.isInteger(age) || age < 18 || age > 80) return json({ error: "Age must be between 18 and 80", field: "age" }, 422);
   if (b.prayer_consistency && !PRAYER.includes(b.prayer_consistency)) return json({ error: "Choose a prayer option", field: "prayer_consistency" }, 422);
   if (b.religious_commitment && !COMMITMENT.includes(b.religious_commitment)) return json({ error: "Choose a commitment option", field: "religious_commitment" }, 422);
-  const photo = b.photo_privacy || "guardian_approved";
+  const photo = (b.photo_privacy === "members" ? "guardian_approved" : b.photo_privacy) || "guardian_approved";
   if (!PHOTO.includes(photo)) return json({ error: "Choose a photo privacy option", field: "photo_privacy" }, 422);
 
   // Gender is chosen once and then fixed, so Discussion Rooms can always pair a brother, a sister and a guardian.

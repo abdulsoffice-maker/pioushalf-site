@@ -1,7 +1,7 @@
 :root{--navy:#0D1B2A;--pearl:#FAF9F6;--gold:#D4AF37;--rose:#D89CA4;--emerald:#2E8B57;--ink:#1b2735;--muted:#5a6675;--line:#e6e2d8}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--pearl);line-height:1.6}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:linear-gradient(rgba(250,249,246,.94),rgba(250,249,246,.94)),url(/flowers.svg) 0 0/380px 380px;line-height:1.6}
 h1,h2,h3,.brand{font-family:"Playfair Display",Georgia,serif;font-weight:600;line-height:1.15;margin:0 0 .5em}
 a{color:inherit}
 .skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;background:#fff;padding:8px 12px;z-index:99}
@@ -14,7 +14,7 @@ a{color:inherit}
 .btn.small{padding:9px 18px}.gold{background:var(--gold);color:var(--navy)}.navybtn{background:var(--navy);color:#fff}
 .ghost{border:1.5px solid rgba(255,255,255,.6);color:#fff;background:transparent}
 .hero{position:relative;background:var(--navy);color:#fff;padding:clamp(80px,14vw,160px) 5vw;overflow:hidden}
-.pattern{position:absolute;inset:0;opacity:.12;background-image:radial-gradient(circle at 50% 50%,transparent 0 14px,var(--gold) 15px 16px,transparent 17px),radial-gradient(circle at 0 0,transparent 0 14px,var(--gold) 15px 16px,transparent 17px);background-size:56px 56px,56px 56px;background-position:0 0,28px 28px}
+.pattern{position:absolute;inset:0;opacity:.3;background:url(/flowers.svg) 0 0/320px 320px}
 .hero-inner{position:relative;max-width:820px;margin:auto;text-align:center}
 .hero h1{font-size:clamp(2.4rem,6vw,4.4rem)}
 .eyebrow{letter-spacing:.22em;text-transform:uppercase;font-size:.75rem;color:var(--gold)}
@@ -60,9 +60,9 @@ details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 .panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:32px;max-width:480px;margin:0 auto}
 .panel.wide{max-width:none}
 .panel h1{font-size:clamp(1.6rem,4vw,2.2rem);color:var(--navy)}
-.form label{display:grid;gap:4px;font-size:.88rem;font-weight:500}
+.form label{display:grid;gap:6px;font-size:1.05rem;font-weight:600;color:var(--navy)}
 .form{display:grid;gap:14px}
-.form input:not([type=checkbox]),.form select,.form textarea{padding:11px 12px;border:1px solid #cfc9b9;border-radius:10px;font:inherit;background:#fff;width:100%}
+.form input:not([type=checkbox]),.form select,.form textarea{padding:13px 14px;border:1.5px solid #b9b19a;border-radius:12px;font:inherit;font-size:1.05rem;font-weight:500;background:#fff;width:100%}
 .form.two-col{grid-template-columns:1fr 1fr}
 .form.two-col .full{grid-column:1/-1}
 @media(max-width:640px){.form.two-col{grid-template-columns:1fr}}
@@ -154,3 +154,21 @@ details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 .bye-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:1.4rem}
 @media (max-width:640px){.vstage{min-height:30rem}}
 @media (prefers-reduced-motion:reduce){.verse .ar{animation:none}.vstage .verse{transition:none}}
+
+/* ---- v2: 3D gold lettering, flowers, hero verses ---- */
+.verse .ar{text-shadow:0 1px 0 #f1d98a,0 2px 0 #cfa23a,0 3px 0 #a77d25,0 5px 7px rgba(0,0,0,.5),0 0 26px rgba(212,175,55,.35);animation:glow3d 7s ease-in-out infinite}
+@keyframes glow3d{0%,100%{text-shadow:0 1px 0 #f1d98a,0 2px 0 #cfa23a,0 3px 0 #a77d25,0 5px 7px rgba(0,0,0,.5),0 0 20px rgba(212,175,55,.28)}50%{text-shadow:0 1px 0 #f1d98a,0 2px 0 #cfa23a,0 3px 0 #a77d25,0 5px 7px rgba(0,0,0,.5),0 0 38px rgba(212,175,55,.55)}}
+.verse.sm .ar{font-size:clamp(1.5rem,3.6vw,2.2rem);line-height:1.9;text-shadow:0 1px 0 #f1d98a,0 2px 0 #b98d2c,0 3px 5px rgba(0,0,0,.45),0 0 16px rgba(212,175,55,.3);animation:none}
+.verse.sm .en{font-size:clamp(.95rem,2vw,1.1rem)}
+.hero-inner.wide{max-width:980px}.hero .verse{margin-bottom:2.4rem}.hero .verse .en{color:#eef2f6}
+.hero .eyebrow{margin:1.4rem 0 .4rem}
+.band{position:relative;background:#0D1B2A;color:#fff;text-align:center;padding:34px 5vw;border-bottom:3px solid var(--gold);overflow:hidden}
+.band::before{content:"";position:absolute;inset:0;opacity:.26;background:url(/flowers.svg) 0 0/320px 320px}
+.band .verse{position:relative}.band .verse .ar{font-size:clamp(1.5rem,3.8vw,2.4rem);line-height:1.95}.band .verse .en{font-size:clamp(.95rem,2vw,1.15rem)}
+.verses,.bye{position:relative}.verses::before,.bye::before{content:"";position:absolute;inset:0;opacity:.22;background:url(/flowers.svg) 0 0/320px 320px;pointer-events:none}.verses>*,.bye-wrap{position:relative}
+.vstage{min-height:21rem}
+@media (max-width:640px){.vstage{min-height:27rem}}
+@media (prefers-reduced-motion:reduce){.verse .ar{animation:none}}
+
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(13,27,42,.82) 0%,rgba(13,27,42,.55) 55%,rgba(13,27,42,.15) 100%);pointer-events:none}
+.hero-inner{z-index:2}
