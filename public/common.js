@@ -25,4 +25,4 @@ function goSignIn() {
   location.href = "/join.html?next=" + encodeURIComponent(location.pathname + location.search);
 }
 
-async function signOut() { await api("/api/auth/logout", "POST"); location.href = "/join.html"; }
+async function signOut() { await api("/api/auth/logout", "POST"); location.href = "/goodbye.html"; }

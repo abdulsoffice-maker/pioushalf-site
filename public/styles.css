@@ -128,3 +128,29 @@ details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 .checklist .bar{height:8px;border-radius:999px;background:#efe9da;overflow:hidden;margin:10px 0}
 .checklist .bar i{display:block;height:100%;width:0;background:var(--emerald);transition:width .4s}
 .checklist .rows .btn{white-space:nowrap}
+
+/* ---- Qur'an and hadith presentation: dignified, readable, gently glowing ---- */
+.sr{position:absolute;left:-9999px}
+.verses{background:radial-gradient(ellipse at 50% 0%,#14304a 0%,#0D1B2A 62%);color:#FAF9F6;text-align:center;padding:84px 5vw;position:relative;overflow:hidden}
+.verses .eyebrow,.bye .eyebrow{color:var(--gold);letter-spacing:.28em;text-transform:uppercase;font-size:.8rem}
+.verse{margin:0 auto;max-width:900px}
+.verse .ar{font-family:"Amiri Quran","Scheherazade New","Noto Naskh Arabic",serif;font-size:clamp(2rem,5.6vw,3.6rem);line-height:2.1;color:#fff8de;margin:.4em 0;text-shadow:0 0 18px rgba(212,175,55,.45),0 0 42px rgba(212,175,55,.22);animation:glow 7s ease-in-out infinite}
+.verse .en{font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1.05rem,2.4vw,1.4rem);line-height:1.7;color:#e8edf2;margin:.8em auto;max-width:760px;border:0;padding:0}
+.verse figcaption{display:flex;flex-direction:column;gap:2px;margin-top:1rem}
+.verse .ref{color:var(--gold);font-weight:600;letter-spacing:.04em;font-size:.95rem}
+.verse .tr{color:#9fb0c0;font-size:.8rem}
+@keyframes glow{0%,100%{text-shadow:0 0 16px rgba(212,175,55,.35),0 0 38px rgba(212,175,55,.18)}50%{text-shadow:0 0 24px rgba(212,175,55,.6),0 0 56px rgba(212,175,55,.3)}}
+.vstage{position:relative;min-height:25rem}
+.vstage .verse{position:absolute;inset:0 0 auto 0;opacity:0;visibility:hidden;transition:opacity 1.4s ease,visibility 1.4s}
+.vstage .verse.on{opacity:1;visibility:visible;position:relative}
+.vstage.stacked{min-height:0}.vstage.stacked .verse{position:relative;opacity:1;visibility:visible;margin-bottom:3rem}
+.vnav{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:1.4rem}
+.vbtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(212,175,55,.6);background:transparent;color:var(--gold);font-size:1.6rem;line-height:1;cursor:pointer}
+.vbtn:hover,.vbtn:focus-visible{background:rgba(212,175,55,.15)}
+.dots{display:flex;gap:10px}.dots button{width:12px;height:12px;border-radius:50%;border:1px solid var(--gold);background:transparent;padding:0;cursor:pointer}.dots button[aria-current="true"]{background:var(--gold)}
+.vcta{font-family:"Playfair Display",serif;font-size:1.25rem;color:#f2e7be;margin:2rem auto 1rem;max-width:620px}
+.bye{background:radial-gradient(ellipse at 50% 0%,#14304a 0%,#0D1B2A 62%);min-height:100vh;color:#FAF9F6;margin:0}
+.bye-wrap{max-width:960px;margin:auto;padding:70px 5vw;text-align:center}.bye .verse{margin-bottom:3.2rem}
+.bye-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:1.4rem}
+@media (max-width:640px){.vstage{min-height:30rem}}
+@media (prefers-reduced-motion:reduce){.verse .ar{animation:none}.vstage .verse{transition:none}}

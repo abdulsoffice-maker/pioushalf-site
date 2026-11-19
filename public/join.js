@@ -98,7 +98,7 @@ $("profileForm").addEventListener("submit", async e => {
   loadProfile();
 });
 
-$("logoutBtn").addEventListener("click", async () => { await api("/api/auth/logout", "POST"); show("email"); });
+$("logoutBtn").addEventListener("click", async () => { await api("/api/auth/logout", "POST"); location.href = "/goodbye.html"; });
 
 // Already signed in? Go straight to the profile.
 loadProfile();
