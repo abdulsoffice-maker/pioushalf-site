@@ -172,3 +172,23 @@ details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 
 .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(13,27,42,.82) 0%,rgba(13,27,42,.55) 55%,rgba(13,27,42,.15) 100%);pointer-events:none}
 .hero-inner{z-index:2}
+
+/* ---- v3: luxury ivory + blush floral background, logo lockup ---- */
+body{background:linear-gradient(180deg,#FFFAF6 0%,#FCEFF1 40%,#FBF4EA 75%,#FFF9F4 100%) fixed,#FFFAF6;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:url(/flowers-light.svg) 0 0/420px 420px;opacity:.9}
+.nav{background:rgba(255,250,246,.9);border-bottom:1px solid #efd9dc}
+.brand{display:inline-flex;align-items:center;gap:10px}.brand .logo{display:block;filter:drop-shadow(0 2px 4px rgba(168,50,92,.25))}
+.brand .wm{font-family:"Playfair Display",Georgia,serif;font-size:1.65rem;font-weight:700;letter-spacing:0;text-transform:none;margin:0;color:#B03A62;background:linear-gradient(90deg,#CC5878 0%,#A8325C 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.brand .wm em{font-style:italic;font-weight:600}
+.hero{padding-top:clamp(28px,4vw,56px);padding-bottom:clamp(64px,9vw,120px)}
+.pattern{opacity:.55;background:url(/flowers.svg) 0 0/420px 420px}
+.band::before,.verses::before,.bye::before{background:url(/flowers.svg) 0 0/420px 420px}
+.card,details{background:rgba(255,255,255,.92)}
+.metrics{background:rgba(255,255,255,.55);backdrop-filter:blur(3px)}
+.footer{position:relative}
+.tint{background:rgba(255,246,248,.5)}
+.navy{background:linear-gradient(rgba(13,27,42,.84),rgba(13,27,42,.84)),url(/flowers.svg) 0 0/420px 420px,var(--navy)}
+.trust,.banner,.pill{background:rgba(255,244,246,.9)}
+body::before{opacity:.5;background-size:480px 480px}
+.section:not(.navy):not(.cta-band):not(.verses)>p,.section:not(.navy):not(.cta-band):not(.verses) .lead{color:#2c3947;text-shadow:0 0 12px #fffaf6,0 0 4px #fffaf6}
+.section:not(.navy):not(.cta-band):not(.verses) h2{text-shadow:0 0 14px #fffaf6}
