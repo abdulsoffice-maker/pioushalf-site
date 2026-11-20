@@ -13,7 +13,7 @@
 </head>
 <body>
 <header class="nav">
-  <a class="brand" href="/"><img class="logo" src="/logo.svg" alt="" width="36" height="36"><span class="wm">Pious<em>Half</em></span></a>
+  <a class="brand" href="/"><img class="logo" src="/logo.svg" alt="" width="48" height="48"><span class="wm"><i class="p">Pious</i><i class="h">Half</i></span></a>
   <nav aria-label="Account"><a href="/join.html">My profile</a><a href="/rooms.html">Discussion rooms</a></nav>
   <button class="btn ghost-dark small" id="logoutBtn">Sign out</button>
 </header>
@@ -72,6 +72,19 @@
     <button class="btn ghost-dark" id="moreBtn" hidden>Show more</button>
     <p class="status" id="browseStatus" role="status"></p>
   </section>
+  <section class="panel wide" aria-labelledby="rvTitle">
+    <h2 id="rvTitle">Share your experience</h2>
+    <p class="muted">Members can leave an honest review. It is shown on our home page only after our team approves it. Please do not include phone numbers, emails or links.</p>
+    <form id="reviewForm" class="form" novalidate>
+      <fieldset class="stars-in"><legend>Your rating</legend>
+        <label><input type="radio" name="rating" value="5" checked> 5 ★</label><label><input type="radio" name="rating" value="4"> 4 ★</label><label><input type="radio" name="rating" value="3"> 3 ★</label><label><input type="radio" name="rating" value="2"> 2 ★</label><label><input type="radio" name="rating" value="1"> 1 ★</label>
+      </fieldset>
+      <label>Your review<textarea name="body" rows="4" maxlength="600" required></textarea></label>
+      <div class="two-col"><label>Name to show (first name or initials)<input name="show_name" maxlength="30"></label><label>City to show (optional)<input name="show_city" maxlength="40"></label></div>
+      <label class="check"><input type="checkbox" name="consent"> I allow PiousHalf to show this review publicly with the name and city above.</label>
+      <button class="btn gold" type="submit">Send review</button><p class="status" id="reviewStatus" role="status"></p>
+    </form>
+  </section>
   <section class="panel wide" aria-labelledby="dataTitle">
     <h2 id="dataTitle">Your data</h2>
     <p class="muted">You can download everything we hold about you, or close your account and erase your personal data. Tax invoices are kept as the law requires.</p>
@@ -85,6 +98,6 @@
 </main>
 <script src="/common.js"></script>
 <script src="/dashboard.js" defer></script>
-<footer class="footer legal-foot"><div><strong>PiousHalf</strong> <span class="muted">by Salaamify™ Group</span> · GSTIN 27BMLPS1698J1Z7 · Mumbai, India<br><span class="muted">Support: <a href="mailto:peace@pioushalf.com">peace@pioushalf.com</a></span></div><div class="links"><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Use</a><a href="/refund-policy.html">Refund Policy</a><a href="/legal.html#disclaimer">Disclaimer</a><a href="/legal.html#guidelines">Community Guidelines</a><a href="/legal.html#safety">Trust &amp; Safety</a><a href="/contact.html">Contact us</a><a href="/legal.html#grievance">Grievance Officer</a></div></footer>
+<footer class="footer legal-foot"><div><a class="brand" href="/"><img class="logo" src="/logo.svg" alt="" width="48" height="48"><span class="wm"><i class="p">Pious</i><i class="h">Half</i></span></a> <span class="muted">by Salaamify™ Group</span> · GSTIN 27BMLPS1698J1Z7 · Mumbai, India<br><span class="muted">Support: <a href="mailto:peace@pioushalf.com">peace@pioushalf.com</a></span></div><div class="links"><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Use</a><a href="/refund-policy.html">Refund Policy</a><a href="/legal.html#disclaimer">Disclaimer</a><a href="/legal.html#guidelines">Community Guidelines</a><a href="/legal.html#safety">Trust &amp; Safety</a><a href="/contact.html">Contact us</a><a href="/legal.html#grievance">Grievance Officer</a></div></footer>
 </body>
 </html>

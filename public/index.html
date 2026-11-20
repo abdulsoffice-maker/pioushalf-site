@@ -31,7 +31,7 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav">
-  <a class="brand" href="#top"><img class="logo" src="/logo.svg" alt="" width="36" height="36"><span class="wm">Pious<em>Half</em></span></a>
+  <a class="brand" href="#top"><img class="logo" src="/logo.svg" alt="" width="48" height="48"><span class="wm"><i class="p">Pious</i><i class="h">Half</i></span></a>
   <nav aria-label="Primary">
     <a href="#how">How it works</a>
     <a href="/about.html">Our approach</a>
@@ -159,8 +159,9 @@
 </section>
 
 <section class="section tint" id="stories">
-  <h2>Success stories</h2>
-  <p class="lead-center">Verified, consented stories from our first families will appear here after launch. We never publish invented testimonials.</p>
+  <h2>Member voices</h2>
+  <p class="lead-center" id="storiesNote">Real reviews from our members will appear here once they are shared and approved. We never publish invented testimonials.</p>
+  <div class="reviews" id="reviewList"></div>
 </section>
 
 <section id="faq" class="section narrow">
@@ -168,6 +169,8 @@
   <details><summary>Is PiousHalf a dating site?</summary><p>No. It is guardian-led and built for marriage only.</p></details>
   <details><summary>Can I message someone privately?</summary><p>No. All conversation happens in guardian-supervised Marriage Discussion Rooms.</p></details>
   <details><summary>Who gets the sister discount?</summary><p>Sisters get 50% off Standard, Premium and Premium Plus. Sign in, upload your ID (free), and once we verify it you are charged half the price when you pay with the same email. The Launch Offer is not combined with the discount.</p></details>
+  <details><summary>Who can see my photos and details?</summary><p>Only people you choose. Your photo is shown to the other side only after both guardians have approved an introduction, or never if you choose "Nobody for now". Phone numbers, emails and social handles stay blocked until both families agree.</p></details>
+  <details><summary>Can I get a refund, and does my membership renew by itself?</summary><p>Memberships never renew automatically. If you ask within 48 hours of paying and have not sent or received any interest, you get a full refund. The full terms are in our <a href="/refund-policy.html">Refund Policy</a>.</p></details>
 </section>
 
 <section class="section cta-band">
@@ -178,7 +181,7 @@
 
 <footer class="footer">
   <div>
-    <strong>PiousHalf</strong> <span class="muted">by Salaamify™ Group</span>
+    <a class="brand" href="/"><img class="logo" src="/logo.svg" alt="" width="48" height="48"><span class="wm"><i class="p">Pious</i><i class="h">Half</i></span></a> <span class="muted">by Salaamify™ Group</span>
     <p>Support: <a href="mailto:peace@pioushalf.com">peace@pioushalf.com</a></p>
     <p>GSTIN: <span>27BMLPS1698J1Z7</span> · Mumbai, India</p>
     <p class="muted">PiousHalf by Salaamify™ Group. Trade name for billing and GST: SALAAMIFY. Salaamify™ is our brand mark; trademark registration to follow. <a href="https://thetalkingpen.org">The Talking Pen Academy</a> (thetalkingpen.org) also originates from the Hearts Find Peace notion.</p>
@@ -225,6 +228,7 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 <script src="/verses.js" defer></script>
+<script src="/reviews.js" defer></script>
 <script src="/app.js" defer></script>
 </body>
 </html>

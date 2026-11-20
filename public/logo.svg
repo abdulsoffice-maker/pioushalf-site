@@ -1,11 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="PiousHalf">
 <defs>
-<linearGradient id="r" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E58AA3"/><stop offset="1" stop-color="#A8325C"/></linearGradient>
-<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0D277"/><stop offset="1" stop-color="#B8921F"/></linearGradient>
-<clipPath id="L"><rect x="0" y="0" width="32" height="64"/></clipPath>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1B8"/><stop offset=".55" stop-color="#E2BC47"/><stop offset="1" stop-color="#A67C12"/></linearGradient>
+<linearGradient id="p" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9BBA"/><stop offset=".55" stop-color="#E8588A"/><stop offset="1" stop-color="#B01E5B"/></linearGradient>
+<clipPath id="L"><rect x="0" y="0" width="31" height="64"/></clipPath>
+<clipPath id="R"><rect x="33" y="0" width="31" height="64"/></clipPath>
+<polygon id="s" points="32,2 38.6,15.4 52.8,11.2 48.6,25.4 62,32 48.6,38.6 52.8,52.8 38.6,48.6 32,62 25.4,48.6 11.2,52.8 15.4,38.6 2,32 15.4,25.4 11.2,11.2 25.4,15.4"/>
 </defs>
-<polygon id="s" points="32,3 38.2,15.6 51.6,12.4 48.4,25.8 61,32 48.4,38.2 51.6,51.6 38.2,48.4 32,61 25.8,48.4 12.4,51.6 15.6,38.2 3,32 15.6,25.8 12.4,12.4 25.8,15.6" fill="none" stroke="url(#g)" stroke-width="2.4" stroke-linejoin="round"/>
-<polygon points="32,3 38.2,15.6 51.6,12.4 48.4,25.8 61,32 48.4,38.2 51.6,51.6 38.2,48.4 32,61 25.8,48.4 12.4,51.6 15.6,38.2 3,32 15.6,25.8 12.4,12.4 25.8,15.6" fill="url(#r)" clip-path="url(#L)"/>
-<circle cx="40" cy="32" r="3.4" fill="url(#g)"/>
-<g fill="#fff" opacity=".92" clip-path="url(#L)"><circle cx="22" cy="32" r="2.2"/><circle cx="26.5" cy="24.5" r="1.5"/><circle cx="26.5" cy="39.5" r="1.5"/></g>
+<use href="#s" fill="url(#g)" clip-path="url(#L)"/>
+<use href="#s" fill="url(#p)" clip-path="url(#R)"/>
+<use href="#s" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width=".8"/>
+<polygon points="32,25 36,32 32,39 28,32" fill="#0D1B2A" opacity=".92"/>
+<polygon points="32,27.5 34.4,32 32,36.5 29.6,32" fill="#FFF1B8"/>
 </svg>

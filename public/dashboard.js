@@ -75,7 +75,7 @@ $("guardianList").addEventListener("click", async e => {
 function introRow(i, kind) {
   const canWithdraw = kind === "sent" && !["declined", "withdrawn", "approved"].includes(i.status);
   const canReply = kind === "received" && i.status === "awaiting_recipient";
-  return `<li><span><b>${esc(i.display_name)}</b>, ${esc(i.age)}<br><span class="muted">${esc(meta(i))}</span>
+  return `<li><span>${i.status === "approved" && i.other_id ? `<img class="thumb" src="/api/photo/${Number(i.other_id)}" alt="Profile photo" width="64" height="64">` : ""}<b>${esc(i.display_name)}</b>, ${esc(i.age)}<br><span class="muted">${esc(meta(i))}</span>
       ${i.message ? `<br><em>“${esc(i.message)}”</em>` : ""}<br><span class="pill ${i.status === "approved" ? "ok" : ""}">${esc(STATUS_LABEL[i.status] || i.status)}</span></span>
       <span class="actions">${i.room_id ? `<a class="btn gold small" href="/rooms.html?id=${Number(i.room_id)}">Open Discussion Room</a>` : ""}
       ${canWithdraw ? `<button class="linkbtn" data-decide="withdraw" data-id="${Number(i.id)}">Withdraw</button>` : ""}
@@ -179,3 +179,14 @@ $("logoutBtn").addEventListener("click", signOut);
   loadIntros();
   loadBrowse(true);
 })();
+
+$("reviewForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target.elements;
+  say("reviewStatus", "Sending…");
+  const r = await api("/api/reviews", "POST", { rating: +f.rating.value, body: f.body.value, show_name: f.show_name.value, show_city: f.show_city.value, consent: f.consent.checked });
+  if (!r.ok) return say("reviewStatus", r.data.error || "Could not send your review", "err");
+  e.target.reset(); say("reviewStatus", "Jazakallahu khairan. Your review will appear after our team approves it.", "ok");
+});
+
+document.addEventListener("error", e => { if (e.target.classList && e.target.classList.contains("thumb")) e.target.remove(); }, true);

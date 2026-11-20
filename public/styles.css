@@ -177,9 +177,6 @@ details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:
 body{background:linear-gradient(180deg,#FFFAF6 0%,#FCEFF1 40%,#FBF4EA 75%,#FFF9F4 100%) fixed,#FFFAF6;position:relative}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:url(/flowers-light.svg) 0 0/420px 420px;opacity:.9}
 .nav{background:rgba(255,250,246,.9);border-bottom:1px solid #efd9dc}
-.brand{display:inline-flex;align-items:center;gap:10px}.brand .logo{display:block;filter:drop-shadow(0 2px 4px rgba(168,50,92,.25))}
-.brand .wm{font-family:"Playfair Display",Georgia,serif;font-size:1.65rem;font-weight:700;letter-spacing:0;text-transform:none;margin:0;color:#B03A62;background:linear-gradient(90deg,#CC5878 0%,#A8325C 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.brand .wm em{font-style:italic;font-weight:600}
 .hero{padding-top:clamp(28px,4vw,56px);padding-bottom:clamp(64px,9vw,120px)}
 .pattern{opacity:.55;background:url(/flowers.svg) 0 0/420px 420px}
 .band::before,.verses::before,.bye::before{background:url(/flowers.svg) 0 0/420px 420px}
@@ -192,3 +189,28 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 body::before{opacity:.5;background-size:480px 480px}
 .section:not(.navy):not(.cta-band):not(.verses)>p,.section:not(.navy):not(.cta-band):not(.verses) .lead{color:#2c3947;text-shadow:0 0 12px #fffaf6,0 0 4px #fffaf6}
 .section:not(.navy):not(.cta-band):not(.verses) h2{text-shadow:0 0 14px #fffaf6}
+
+/* ---- v4: navy header, premium logo lockup ---- */
+.nav{background:rgba(13,27,42,.97);border-bottom:1px solid rgba(212,175,55,.45);box-shadow:0 6px 24px rgba(13,27,42,.25)}
+.nav nav a{color:#dfe5ec}.nav nav a:hover{color:#F1D98A}
+.nav .ghost-dark{color:#fff;border-color:rgba(255,255,255,.55);background:transparent}.nav .navybtn{background:var(--gold);color:var(--navy)}
+.brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none}
+.brand .logo{display:block;width:48px;height:48px;filter:drop-shadow(0 3px 8px rgba(232,88,138,.35))}
+.brand .wm{font-family:"Playfair Display",Georgia,serif;font-size:2.05rem;font-weight:700;letter-spacing:.01em;text-transform:none;margin:0;display:inline-flex;line-height:1;color:inherit}
+.brand .wm i{font-style:normal;padding-right:.02em}
+.brand .wm .p{color:#F4DD8F;text-shadow:0 1px 0 #b8921f,0 0 18px rgba(244,221,143,.28)}
+.brand .wm .h{color:#FF8DB0;text-shadow:0 1px 0 #a5224f,0 0 18px rgba(255,141,176,.3)}
+.nav .brand span:not(.wm){color:#cbd3dc}
+.footer .brand .logo{width:40px;height:40px}.footer .brand .wm{font-size:1.7rem}
+@media (max-width:640px){.brand .wm{font-size:1.6rem}.brand .logo{width:40px;height:40px}.nav nav{display:none}}
+
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:22px}
+.review{margin:0;background:rgba(255,255,255,.94);border:1px solid #efd9dc;border-radius:18px;padding:22px}
+.review .stars{color:#C9A227;letter-spacing:.15em;margin:0 0 8px;font-size:1.1rem}.review blockquote{margin:0 0 10px;color:#1b2735}.review figcaption{color:#5a6675;font-size:.9rem}
+.stars-in{display:flex;gap:6px;flex-wrap:wrap}.stars-in label{display:flex;align-items:center;gap:4px;font-weight:600}
+
+.photo-box{margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}.myphoto{display:block;width:160px;height:160px;object-fit:cover;border-radius:18px;border:2px solid var(--gold);margin:10px 0}
+.thumb{float:left;width:64px;height:64px;object-fit:cover;border-radius:12px;margin:0 12px 4px 0;border:1.5px solid var(--gold)}
+.stars-in label{display:inline-flex!important;flex-direction:row!important;align-items:center;gap:6px;white-space:nowrap}.stars-in input{width:auto}
+.form .check{display:flex!important;flex-direction:row!important;align-items:flex-start;gap:10px;font-weight:500}.form .check input{width:auto;margin-top:4px}
+.legal-foot>div:first-child{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px}.legal-foot>div:first-child>br{display:none}.legal-foot>div:first-child>.muted:last-child{flex-basis:100%}

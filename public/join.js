@@ -77,8 +77,30 @@ async function loadProfile() {
   if (d.profile) for (const [k, v] of Object.entries(d.profile)) if (f.elements[k] && v != null) f.elements[k].value = v;
   if (d.member.gender) { f.elements.gender.value = d.member.gender; f.elements.gender.disabled = true; }
   renderTrust(d);
+  $("photoBox").hidden = !d.profile;
+  if (d.profile) showPhoto(d.member.id, !!d.profile.photo_r2_key);
   show("profile");
 }
+function showPhoto(id, has) {
+  const img = $("myPhoto");
+  img.hidden = !has; if (has) img.src = "/api/photo/" + id + "?t=" + Date.now();
+  $("photoRemove").hidden = !has;
+}
+$("photoForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const file = e.target.elements.file.files[0];
+  if (!file) return say("photoStatus", "Please choose a photo", "err");
+  say("photoStatus", "Uploading…");
+  const fd = new FormData(); fd.append("file", file);
+  const res = await fetch("/api/photo", { method: "POST", body: fd, credentials: "same-origin" });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) return say("photoStatus", data.error || "Upload failed. Please try again.", "err");
+  e.target.reset(); say("photoStatus", "Photo saved.", "ok"); loadProfile();
+});
+$("photoRemove").addEventListener("click", async () => {
+  await fetch("/api/photo", { method: "DELETE", credentials: "same-origin" });
+  say("photoStatus", "Photo removed.", "ok"); loadProfile();
+});
 
 $("profileForm").addEventListener("submit", async e => {
   e.preventDefault();

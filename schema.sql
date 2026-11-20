@@ -231,3 +231,17 @@ CREATE TABLE IF NOT EXISTS rate_hits (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_rate_hits ON rate_hits(key, created_at);
+
+-- ===== Member reviews (shown on the home page only after an admin approves them) =====
+CREATE TABLE IF NOT EXISTS reviews (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER NOT NULL REFERENCES members(id),
+  rating INTEGER NOT NULL,
+  body TEXT NOT NULL,
+  show_name TEXT,
+  show_city TEXT,
+  status TEXT NOT NULL DEFAULT 'pending',   -- pending | approved | rejected
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  decided_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status, created_at);

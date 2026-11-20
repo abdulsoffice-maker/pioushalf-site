@@ -35,6 +35,10 @@ export async function onRequestPost({ request, env }) {
   const { results: ev } = await env.DB.prepare(`SELECT evidence_r2_key AS k FROM verifications WHERE member_id = ?1 AND evidence_r2_key IS NOT NULL`).bind(me.id).all();
   for (const e of ev) await env.BUCKET.delete(e.k);
 
+  const pp = await env.DB.prepare(`SELECT photo_r2_key AS k FROM profiles WHERE member_id = ?1`).bind(me.id).first();
+  if (pp && pp.k) await env.BUCKET.delete(pp.k);
+  await env.DB.prepare(`DELETE FROM reviews WHERE member_id = ?1`).bind(me.id).run();
+
   // introductions end, rooms close
   await env.DB.prepare(`UPDATE interests SET status = 'withdrawn', updated_at = datetime('now') WHERE (from_member_id = ?1 OR to_member_id = ?1) AND status NOT IN ('declined','withdrawn')`).bind(me.id).run();
   const { results: rooms } = await env.DB.prepare(`SELECT id FROM rooms WHERE (sender_id = ?1 OR recipient_id = ?1) AND status != 'closed'`).bind(me.id).all();

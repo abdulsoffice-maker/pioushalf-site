@@ -1,5 +1,5 @@
 // Admin screens. Every call is checked again on the server, so hiding a tab here is only for tidiness.
-const TABS = ["Overview", "Members", "Safety", "Verifications", "Orders", "Support", "Errors", "Audit"];
+const TABS = ["Overview", "Members", "Safety", "Verifications", "Orders", "Reviews", "Support", "Errors", "Audit"];
 const inr = p => "₹" + (p / 100).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const view = () => $("view");
 let current = "Overview";
@@ -47,6 +47,12 @@ const screens = {
     return `<h2>Memberships and revenue (India, INR)</h2><p><a class="btn gold small" href="/api/admin/orders?format=csv">Download CSV for the GST sheet</a></p>${table(["Paid", "Invoice", "Customer", "Plan", "Amount", "Ends", "Status"], rows)}
       <h2>Overseas members (PayPal, USD, no GST)</h2><p><a class="btn navybtn small" href="/api/admin/orders?format=csv&kind=export">Download overseas CSV (for your CA)</a></p>${table(["Paid", "Invoice", "Customer", "Plan", "Amount", "Ends", "Status"], xrows)}`;
   },
+  async Reviews() {
+    const r = await api("/api/admin/reviews"); if (!r.ok) return `<p class="status err">Could not load.</p>`;
+    const rows = r.data.reviews.map(v => `<tr>${td(v.created_at)}${td("★".repeat(v.rating))}${td(v.body)}${td([v.show_name, v.show_city].filter(Boolean).join(", "))}
+      <td><button class="btn small gold" data-rv="${v.id}|approve">Publish</button> <button class="btn small navybtn" data-rv="${v.id}|reject">Hide</button></td></tr>`);
+    return `<h2>Member reviews</h2><p class="muted">Publish only genuine, respectful reviews. Nothing is shown on the site until you approve it.</p><p class="status" id="adminMsg" role="status"></p>${table(["When", "Stars", "Review", "Shown as", ""], rows)}`;
+  },
   async Support() {
     const r = await api("/api/admin/tickets?status=open"); if (!r.ok) return `<p class="status err">Could not load.</p>`;
     const rows = r.data.tickets.map(t => `<tr>${td(t.created_at)}${td(t.name)}<td><a href="mailto:${esc(t.email)}">${esc(t.email)}</a></td>${td(t.message)}<td><button class="btn small navybtn" data-t="${t.id}">Close</button></td></tr>`);
@@ -72,11 +78,12 @@ async function open(tab) {
 }
 
 view().addEventListener("click", async e => {
-  const b = e.target.closest("button[data-mid],button[data-flag],button[data-v],button[data-t],button[data-err]"); if (!b) return;
+  const b = e.target.closest("button[data-mid],button[data-flag],button[data-v],button[data-t],button[data-err],button[data-rv]"); if (!b) return;
   let r;
   if (b.dataset.mid) r = await api("/api/admin/members", "POST", { id: +b.dataset.mid, status: b.dataset.to });
   else if (b.dataset.flag) r = await api("/api/admin/flags", "POST", { id: +b.dataset.flag });
   else if (b.dataset.err) r = await api("/api/admin/errors", "POST", b.dataset.err === "all" ? { all: true } : { id: +b.dataset.err });
+  else if (b.dataset.rv) { const [i, a] = b.dataset.rv.split("|"); r = await api("/api/admin/reviews", "POST", { id: +i, action: a }); }
   else if (b.dataset.t) r = await api("/api/admin/tickets", "POST", { id: +b.dataset.t, status: "closed" });
   else { const [m, l, d] = b.dataset.v.split("|"); r = await api("/api/admin/verifications", "POST", { member_id: +m, level: l, decision: d }); }
   if (r.ok) await open(current); else say("adminMsg", r.data.error || "Failed", "err");
