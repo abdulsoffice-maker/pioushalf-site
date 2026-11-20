@@ -27,10 +27,11 @@ export async function markPaid(env, razorpay_order_id, razorpay_payment_id) {
   if (o.status === "paid") return o; // idempotent: webhook + browser can both call this
 
   const fy = financialYear();
-  await env.DB.prepare(`INSERT INTO invoice_counter (fy,last_no) VALUES (?1,0) ON CONFLICT(fy) DO NOTHING`).bind(fy).run();
-  await env.DB.prepare(`UPDATE invoice_counter SET last_no=last_no+1 WHERE fy=?1`).bind(fy).run();
-  const { last_no } = await env.DB.prepare(`SELECT last_no FROM invoice_counter WHERE fy=?1`).bind(fy).first();
-  const invoice_no = `SAL/${fy}/${String(last_no).padStart(5, "0")}`;
+  const ctr = "PH-" + fy; // own number series, separate from other Salaamify sales on the same GSTIN
+  await env.DB.prepare(`INSERT INTO invoice_counter (fy,last_no) VALUES (?1,0) ON CONFLICT(fy) DO NOTHING`).bind(ctr).run();
+  await env.DB.prepare(`UPDATE invoice_counter SET last_no=last_no+1 WHERE fy=?1`).bind(ctr).run();
+  const { last_no } = await env.DB.prepare(`SELECT last_no FROM invoice_counter WHERE fy=?1`).bind(ctr).first();
+  const invoice_no = `PH/${fy}/${String(last_no).padStart(5, "0")}`;
 
   const start = new Date();
   const end = new Date(start); end.setUTCMonth(end.getUTCMonth() + o.months);
@@ -38,7 +39,7 @@ export async function markPaid(env, razorpay_order_id, razorpay_payment_id) {
 
   const html = `<!doctype html><meta charset="utf-8"><title>Tax Invoice ${invoice_no}</title>
 <body style="font-family:Arial,sans-serif;max-width:720px;margin:auto">
-<h1>Tax Invoice</h1><p><b>${env.SELLER_NAME || "SALAAMIFY"}</b><br>GSTIN: ${env.SELLER_GSTIN || "ADD-YOUR-GSTIN"}<br>${env.SELLER_ADDRESS || ""}</p>
+<h1>Tax Invoice</h1><p><b>PiousHalf™ by Salaamify™ Group</b> (pioushalf.com)<br>Billed by: <b>${env.SELLER_NAME || "SALAAMIFY"}</b><br>GSTIN: ${env.SELLER_GSTIN || "ADD-YOUR-GSTIN"}<br>${env.SELLER_ADDRESS || ""}</p>
 <p>Invoice: ${invoice_no}<br>Date: ${start.toISOString().slice(0, 10)}<br>Place of supply: ${o.place_of_supply}</p>
 <p>Billed to: ${o.name}<br>${o.email}${o.gstin ? "<br>GSTIN: " + o.gstin : ""}</p>
 <table border="1" cellpadding="8" cellspacing="0" width="100%">
