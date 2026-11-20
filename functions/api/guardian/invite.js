@@ -46,8 +46,8 @@ export async function onRequestPost({ request, env }) {
 
   const ok = await sendMail(env, {
     to: email,
-    subject: `${profile.display_name} has asked you to be their guardian on Salaamify`,
-    text: `Assalamu alaikum ${name},\n\n${profile.display_name} has asked you to be their guardian (wali) on Salaamify, a guardian-led Islamic marriage platform.\n\nAs a guardian you review and approve every introduction before any contact happens, and you take part in every discussion.\n\nTo accept, open this link and sign in with this email address (it works for 7 days):\n${siteUrl(env)}/guardian.html?token=${token}\n\nIf you do not know this person, please ignore this email.\n\nSalaamify, A Gift of Peace`,
+    subject: `${profile.display_name} has asked you to be their guardian on PiousHalf`,
+    text: `Assalamu alaikum ${name},\n\n${profile.display_name} has asked you to be their guardian (wali) on PiousHalf, a guardian-led Islamic marriage platform.\n\nAs a guardian you review and approve every introduction before any contact happens, and you take part in every discussion.\n\nTo accept, open this link and sign in with this email address (it works for 7 days):\n${siteUrl(env)}/guardian.html?token=${token}\n\nIf you do not know this person, please ignore this email.\n\nPiousHalf, A Gift of Peace`,
   });
   if (!ok) return json({ error: "We could not send the invitation email. Please try again shortly." }, 502);
   return json({ ok: true });

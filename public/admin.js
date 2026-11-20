@@ -90,7 +90,7 @@ $("logoutBtn").addEventListener("click", signOut);
 (async function init() {
   const me = await api("/api/me");
   if (!me.ok) return goSignIn();
-  if (!me.data.is_admin) { say("gate", "This area is for the Salaamify team.", "err"); return; }
+  if (!me.data.is_admin) { say("gate", "This area is for the PiousHalf team.", "err"); return; }
   $("app").hidden = false;
   $("tabs").innerHTML = TABS.map(t => `<button type="button" role="tab" aria-selected="false">${t}</button>`).join("");
   $("tabs").addEventListener("click", e => { if (e.target.matches("button")) open(e.target.textContent); });

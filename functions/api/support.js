@@ -19,7 +19,7 @@ export async function onRequestPost({ request, env }) {
 
   await env.DB.prepare(`INSERT INTO tickets (name, email, message) VALUES (?1, ?2, ?3)`).bind(name, email, message).run();
   try {
-    await sendMail(env, { to: env.SUPPORT_NOTIFY || "peace@pioushalf.com", subject: "New Salaamify support message", text: `From: ${name} <${email}>\n\n${message}` });
+    await sendMail(env, { to: env.SUPPORT_NOTIFY || "peace@pioushalf.com", subject: "New PiousHalf support message", text: `From: ${name} <${email}>\n\n${message}` });
   } catch {}
   return json({ ok: true });
 }

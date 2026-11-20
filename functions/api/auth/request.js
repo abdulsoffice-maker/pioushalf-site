@@ -27,10 +27,10 @@ export async function onRequestPost({ request, env }) {
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${env.RESEND_API_KEY}` },
       body: JSON.stringify({
-        from: env.MAIL_FROM || "Salaamify <peace@pioushalf.com>",
+        from: env.MAIL_FROM || "PiousHalf <peace@pioushalf.com>",
         to: [email],
-        subject: `Your Salaamify code: ${code}`,
-        text: `Assalamu alaikum,\n\nYour Salaamify sign-in code is ${code}. It works for 10 minutes.\n\nIf you did not ask for this, you can ignore this email.\n\nSalaamify, A Gift of Peace`,
+        subject: `Your PiousHalf code: ${code}`,
+        text: `Assalamu alaikum,\n\nYour PiousHalf sign-in code is ${code}. It works for 10 minutes.\n\nIf you did not ask for this, you can ignore this email.\n\nPiousHalf, A Gift of Peace`,
       }),
     });
     if (!r.ok) return json({ error: "We could not send the email. Please try again shortly." }, 502);

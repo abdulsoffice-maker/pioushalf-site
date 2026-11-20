@@ -103,7 +103,7 @@ form.addEventListener("submit", async e => {
     if (!res.ok) throw new Error(o.error || "Could not start payment");
     const rzp = new Razorpay({
       key: o.key, amount: o.amount, currency: "INR", order_id: o.razorpay_order_id,
-      name: "Salaamify™", description: PLAN_NAMES[selectedPlan],
+      name: "PiousHalf", description: PLAN_NAMES[selectedPlan],
       prefill: { name: payload.name, email: payload.email, contact: payload.phone },
       theme: { color: "#0D1B2A" },
       handler: async r => {

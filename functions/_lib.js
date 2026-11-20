@@ -1,4 +1,4 @@
-// Shared helpers for the Salaamify API. Files starting with "_" are not exposed as routes.
+// Shared helpers for the PiousHalf API. Files starting with "_" are not exposed as routes.
 
 export const json = (obj, status = 200, headers = {}) =>
   new Response(JSON.stringify(obj), { status, headers: { "content-type": "application/json", "cache-control": "no-store", ...headers } });
@@ -72,7 +72,7 @@ export async function sendMail(env, { to, subject, text, html }) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { "content-type": "application/json", authorization: `Bearer ${env.RESEND_API_KEY}` },
-    body: JSON.stringify({ from: env.MAIL_FROM || "Salaamify <peace@pioushalf.com>", to: [to], subject, text, ...(html ? { html } : {}) }),
+    body: JSON.stringify({ from: env.MAIL_FROM || "PiousHalf <peace@pioushalf.com>", to: [to], subject, text, ...(html ? { html } : {}) }),
   });
   return r.ok;
 }
@@ -101,7 +101,7 @@ export async function notifyGuardians(env, memberId, subject, text) {
   try {
     const { results } = await env.DB.prepare(`SELECT email, name FROM guardians WHERE member_id = ?1 AND status = 'active'`).bind(memberId).all();
     for (const g of results) {
-      await sendMail(env, { to: g.email, subject, text: `Assalamu alaikum ${g.name},\n\n${text}\n\nReview it here: ${siteUrl(env)}/guardian.html\n\nSalaamify, A Gift of Peace` });
+      await sendMail(env, { to: g.email, subject, text: `Assalamu alaikum ${g.name},\n\n${text}\n\nReview it here: ${siteUrl(env)}/guardian.html\n\nPiousHalf, A Gift of Peace` });
     }
   } catch {}
 }
@@ -109,7 +109,7 @@ export async function notifyGuardians(env, memberId, subject, text) {
 export async function notifyMember(env, memberId, subject, text) {
   try {
     const m = await env.DB.prepare(`SELECT email FROM members WHERE id = ?1`).bind(memberId).first();
-    if (m) await sendMail(env, { to: m.email, subject, text: `Assalamu alaikum,\n\n${text}\n\nOpen your dashboard: ${siteUrl(env)}/dashboard.html\n\nSalaamify, A Gift of Peace` });
+    if (m) await sendMail(env, { to: m.email, subject, text: `Assalamu alaikum,\n\n${text}\n\nOpen your dashboard: ${siteUrl(env)}/dashboard.html\n\nPiousHalf, A Gift of Peace` });
   } catch {}
 }
 

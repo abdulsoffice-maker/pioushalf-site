@@ -45,7 +45,7 @@ async function refundHalf(env, orderId, fetchFn) {
     await env.DB.prepare(`INSERT INTO audit_log (actor,action,detail) VALUES ('system','sister_discount_refund',?1)`).bind(`${o.invoice_no} ${usd ? "$" : "₹"}${(half / 100).toFixed(2)}`).run();
     try {
       await sendMail(env, { to: o.email, subject: "Your 50% sister discount has been refunded",
-        text: `Assalamu alaikum ${o.name},\n\nYour identity is verified, so ${usd ? "$" : "₹"}${(half / 100).toFixed(2)} (50%) has been refunded to your original payment method for invoice ${o.invoice_no}. It usually reaches you in 5 to 7 working days.\n\nSalaamify, A Gift of Peace` });
+        text: `Assalamu alaikum ${o.name},\n\nYour identity is verified, so ${usd ? "$" : "₹"}${(half / 100).toFixed(2)} (50%) has been refunded to your original payment method for invoice ${o.invoice_no}. It usually reaches you in 5 to 7 working days.\n\nPiousHalf, A Gift of Peace` });
     } catch {}
     return { id: orderId, refunded: half };
   } catch (e) {

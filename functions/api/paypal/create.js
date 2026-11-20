@@ -21,7 +21,7 @@ export async function onRequestPost({ request, env, fetchFn = fetch }) {
     const r = await fetchFn(`${paypalBase(env)}/v2/checkout/orders`, {
       method: "POST",
       headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
-      body: JSON.stringify({ intent: "CAPTURE", purchase_units: [{ reference_id: b.plan, description: `Salaamify ${b.plan} membership (${plan.months} months)`,
+      body: JSON.stringify({ intent: "CAPTURE", purchase_units: [{ reference_id: b.plan, description: `PiousHalf ${b.plan} membership (${plan.months} months)`,
         custom_id: "pioushalf", amount: { currency_code: "USD", value: (cents / 100).toFixed(2) } }] }),
     });
     if (!r.ok) throw new Error("create failed");

@@ -1,12 +1,12 @@
-// Salaamify Marriage Safety & Alignment advisory. One place for the wording, so the page, the checks and the room notices agree.
+// PiousHalf Marriage Safety & Alignment advisory. One place for the wording, so the page, the checks and the room notices agree.
 export const MEHAR_FLOOR_INR = 500000;    // PiousHalf's recommended baseline (₹5 lakh) or the groom's yearly income, whichever is higher. A recommendation, never enforced.
 export const MAX_DISTANCE_KM = 75;
 
 export const ADVISORY_INTRO =
-  "Before a family introduction becomes a marriage commitment, Salaamify asks the Brother to give his confirmations in writing, so the Sister and both guardians can see them. " +
+  "Before a family introduction becomes a marriage commitment, PiousHalf asks the Brother to give his confirmations in writing, so the Sister and both guardians can see them. " +
   "These clauses are PiousHalf's protective recommendations. They are not enforced. Please record whatever your families agree on in your Nikah Nama or marriage agreement. " +
-  "The Sister's side holds the final decision. If she chooses to proceed without them, she does so at her own discretion and Salaamify will respect her choice. " +
-  "Salaamify is not a party to any marriage, does not enforce these clauses and does not give legal advice.";
+  "The Sister's side holds the final decision. If she chooses to proceed without them, she does so at her own discretion and PiousHalf will respect her choice. " +
+  "PiousHalf is not a party to any marriage, does not enforce these clauses and does not give legal advice.";
 
 export const CLAUSES = [
   { id: 1, title: "Family and character verification",

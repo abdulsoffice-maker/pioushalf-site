@@ -40,7 +40,7 @@ export async function onRequestPost({ request, env }) {
   const { results: rooms } = await env.DB.prepare(`SELECT id FROM rooms WHERE (sender_id = ?1 OR recipient_id = ?1) AND status != 'closed'`).bind(me.id).all();
   for (const r of rooms) {
     await env.DB.prepare(`UPDATE rooms SET status = 'closed', updated_at = datetime('now') WHERE id = ?1`).bind(r.id).run();
-    await systemMessage(env, r.id, "A member has left Salaamify and this room was closed.");
+    await systemMessage(env, r.id, "A member has left PiousHalf and this room was closed.");
   }
   // their own words are removed from rooms
   await env.DB.prepare(`UPDATE room_messages SET body = '[removed]' WHERE author_id = ?1 AND kind = 'message'`).bind(me.id).run();

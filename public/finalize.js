@@ -13,7 +13,7 @@ function renderAnswers() {
     <li><span>His medical certificate</span><b>${esc(D.options.medical[a.medical])}</b></li>
     ${a.note ? `<li class="stack"><span>His note</span><b>${esc(a.note)}</b></li>` : ""}</ul>
     ${D.differences.length ? `<div class="banner"><b>Where his answers differ from the advisory</b><ul>${D.differences.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : `<p class="pill ok">His answers meet the advisory baseline.</p>`}
-    <p class="muted small">Income and other figures are his own statement. Salaamify has not verified them. Families should check them directly.</p>`;
+    <p class="muted small">Income and other figures are his own statement. PiousHalf has not verified them. Families should check them directly.</p>`;
 }
 
 function renderBrother() {
@@ -50,11 +50,11 @@ function renderSister() {
   box.hidden = !(D.you === "sister" && D.state === "waiting_sister");
   if (box.hidden) return;
   box.innerHTML = `<h2 id="sf">Your decision</h2>
-  <p>Have you reviewed the Salaamify Safety &amp; Security clauses and the Brother's confirmations with your guardian? Salaamify will not let the Brother's side decide for you.</p>
+  <p>Have you reviewed the PiousHalf Safety &amp; Security clauses and the Brother's confirmations with your guardian? PiousHalf will not let the Brother's side decide for you.</p>
   <form id="sForm" class="form" novalidate>
     <label class="check"><input type="radio" name="choice" value="agreed"> Yes, agreed. We will record these in our Nikah Nama or marriage agreement.</label>
     <label class="check"><input type="radio" name="choice" value="own_discretion"> I am proceeding at my own discretion, without or against the advisory.</label>
-    <label class="check" id="riskRow" hidden><input type="checkbox" name="accept_own_risk"> I understand this is my own choice and Salaamify has advised me to protect these points.</label>
+    <label class="check" id="riskRow" hidden><input type="checkbox" name="accept_own_risk"> I understand this is my own choice and PiousHalf has advised me to protect these points.</label>
     <label>Your own medical certificate (reproductive health and mental health fitness)<select name="medical"><option value="">Choose</option>${opts(D.options.medical)}</select></label>
     <label>A reply to the Brother (optional, no contact details)<textarea name="reply" rows="3" maxlength="600"></textarea></label>
     <div><button class="btn gold" type="submit">Save my decision</button><p class="status" id="sStatus" role="status"></p></div>
