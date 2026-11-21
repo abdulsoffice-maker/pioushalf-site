@@ -214,3 +214,26 @@ body::before{opacity:.5;background-size:480px 480px}
 .stars-in label{display:inline-flex!important;flex-direction:row!important;align-items:center;gap:6px;white-space:nowrap}.stars-in input{width:auto}
 .form .check{display:flex!important;flex-direction:row!important;align-items:flex-start;gap:10px;font-weight:500}.form .check input{width:auto;margin-top:4px}
 .legal-foot>div:first-child{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px}.legal-foot>div:first-child>br{display:none}.legal-foot>div:first-child>.muted:last-child{flex-basis:100%}
+
+/* ---- v5: one light background everywhere; dark-gold Arabic, black translation ---- */
+body{background:#FFFAF4!important}
+body::before{background:url(/flowers-light.svg) 0 0/560px 560px;opacity:.5}
+.hero,.verses,.band,.bye,.navy,.cta-band,.tint{background:transparent!important;color:#14202c}
+.hero::after,.pattern,.band::before,.verses::before,.bye::before{display:none!important}
+.band{border-bottom:2px solid #C9A227}
+.hero .promise,.hero .eyebrow,.hero p,.navy,.navy p,.navy h2,.navy .lead-center,.cta-band,.cta-band h2,.cta-band p,.bye p,.bye h2,.verses h2{color:#14202c!important}
+.hero .eyebrow,.verses .eyebrow,.bye .eyebrow{color:#7A5A0B!important}
+.btn.ghost{color:#0D1B2A;border:2px solid #0D1B2A;background:rgba(255,255,255,.7)}.btn.ghost:hover{background:#0D1B2A;color:#fff}
+.verse .ar{color:#7A5500!important;animation:none!important;text-shadow:0 1px 0 #fff3c4,0 2px 2px rgba(122,85,0,.28),0 0 22px rgba(255,250,240,.9)!important}
+.verse.sm .ar{text-shadow:0 1px 0 #fff3c4,0 2px 2px rgba(122,85,0,.25)!important}
+.verse .en,.hero .verse .en{color:#0b0b0b!important}
+.verse .ref{color:#6B4E08!important}.verse .tr{color:#3a3a3a!important}
+.verse{padding:6px 18px}
+.navy .card,.navy li{color:#14202c}
+.footer{background:#0D1B2A}
+body::before{opacity:.42}
+.verse .en,.verse figcaption,.hero .promise{text-shadow:0 0 10px #fffaf4,0 0 4px #fffaf4}
+img,.logo{-webkit-user-drag:none;user-drag:none}.brand,.logo,.myphoto,.thumb{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.myphoto,.thumb{pointer-events:none}
+.copyright{margin-top:14px;text-align:center}
+body.bye::before{display:block!important;content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.42;background:url(/flowers-light.svg) 0 0/560px 560px}

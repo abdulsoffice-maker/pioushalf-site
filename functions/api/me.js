@@ -1,4 +1,5 @@
 // GET /api/me -> the signed-in member, their profile, verification levels and trust score.
+import { smsEnabled } from "../_sms.js";
 import { json, getMember, trustScore, LEVELS, TRUST_POINTS, isAdmin } from "../_lib.js";
 
 export async function onRequestGet({ request, env }) {
@@ -20,5 +21,6 @@ export async function onRequestGet({ request, env }) {
     profile: profile || null,
     verification: LEVELS.map(level => ({ level, status: byLevel[level] || "not_started", points: TRUST_POINTS[level] })),
     trust_score: trustScore(results),
+    sms: smsEnabled(env),
   });
 }

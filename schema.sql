@@ -245,3 +245,10 @@ CREATE TABLE IF NOT EXISTS reviews (
   decided_at TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status, created_at);
+
+-- ===== Mobile verification: only a hash of the number is kept, so one number cannot verify two accounts =====
+CREATE TABLE IF NOT EXISTS phones (
+  member_id INTEGER PRIMARY KEY REFERENCES members(id),
+  phone_hash TEXT NOT NULL UNIQUE,
+  verified_at TEXT NOT NULL DEFAULT (datetime('now'))
+);

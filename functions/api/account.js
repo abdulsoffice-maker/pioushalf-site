@@ -37,6 +37,7 @@ export async function onRequestPost({ request, env }) {
 
   const pp = await env.DB.prepare(`SELECT photo_r2_key AS k FROM profiles WHERE member_id = ?1`).bind(me.id).first();
   if (pp && pp.k) await env.BUCKET.delete(pp.k);
+  await env.DB.prepare(`DELETE FROM phones WHERE member_id = ?1`).bind(me.id).run();
   await env.DB.prepare(`DELETE FROM reviews WHERE member_id = ?1`).bind(me.id).run();
 
   // introductions end, rooms close

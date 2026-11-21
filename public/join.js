@@ -52,9 +52,30 @@ function renderTrust(d) {
     `<form class="uploadForm" data-level="${lv}" novalidate><label>${label}<input type="file" name="file" accept="${accept}"></label>
       <p class="muted small">${hint}</p><button class="btn navybtn small" type="submit">${st(lv) === "pending" ? "Replace upload" : "Upload for review"}</button><p class="status" role="status"></p></form>`;
   $("trust").innerHTML = `<p><b>Trust score: ${d.trust_score} / 100</b></p><ul class="vbadges">${badges}</ul>
-    <p class="muted small">Mobile verification opens in a later release. Documents are seen only by our review team and deleted once checked.</p>
+    <p class="muted small">Documents are seen only by our review team and deleted once checked.</p>
+    ${st("mobile") === "verified" ? "" : d.sms ? `<form id="smsForm" novalidate><label>Mobile number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="98XXXXXXXX or +971…"></label>
+      <p class="muted small">We send a 6-digit code by SMS. Only a scrambled fingerprint of your number is kept, never the number itself.</p>
+      <button class="btn navybtn small" type="submit" id="smsSend">Send code</button>
+      <label id="smsCodeRow" hidden>Code from SMS<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8"></label>
+      <button class="btn gold small" type="button" id="smsCheck" hidden>Verify mobile</button><p class="status" id="smsStatus" role="status"></p></form>`
+      : `<p class="muted small">Mobile verification opens soon.</p>`}
     ${up("identity", "Identity document", "Aadhaar, passport, driving licence or voter ID (JPG, PNG, WebP or PDF, up to 5 MB).", "image/jpeg,image/png,image/webp,application/pdf")}
     ${up("photo", "Verification photo", "A clear recent photo of your face for the review team only (JPG, PNG or WebP, up to 5 MB).", "image/jpeg,image/png,image/webp")}`;
+  const sf = $("smsForm");
+  if (sf) {
+    sf.addEventListener("submit", async e => {
+      e.preventDefault(); say("smsStatus", "Sending…");
+      const r = await api("/api/phone/start", "POST", { phone: sf.elements.phone.value });
+      if (!r.ok) return say("smsStatus", r.data.error || "Could not send the code", "err");
+      $("smsCodeRow").hidden = false; $("smsCheck").hidden = false; say("smsStatus", "Code sent. Please enter it below.", "ok");
+    });
+    $("smsCheck").addEventListener("click", async () => {
+      say("smsStatus", "Checking…");
+      const r = await api("/api/phone/check", "POST", { phone: sf.elements.phone.value, code: sf.elements.code.value });
+      if (!r.ok) return say("smsStatus", r.data.error || "Could not verify", "err");
+      say("smsStatus", "Mobile verified. JazakAllah khair.", "ok"); setTimeout(loadProfile, 700);
+    });
+  }
   document.querySelectorAll(".uploadForm").forEach(f => f.addEventListener("submit", async e => {
     e.preventDefault();
     const msg = f.querySelector(".status"), file = f.elements.file.files[0];
