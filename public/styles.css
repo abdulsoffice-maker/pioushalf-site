@@ -237,3 +237,5 @@ img,.logo{-webkit-user-drag:none;user-drag:none}.brand,.logo,.myphoto,.thumb{-we
 .myphoto,.thumb{pointer-events:none}
 .copyright{margin-top:14px;text-align:center}
 body.bye::before{display:block!important;content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.42;background:url(/flowers-light.svg) 0 0/560px 560px}
+/* translations in PiousHalf pink */
+.verse .en,.hero .verse .en{color:#B03A62!important;font-weight:500}
